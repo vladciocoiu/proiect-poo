@@ -16,6 +16,11 @@ public:
     std::string getPromotionPiece() { return promotionPiece; }
     char getRowTo() { return rowTo; }
     char getColTo() { return colTo; }
+    bool isEnPassant() { return enPassant; }
+    bool isCapture() { return capture; }
+    bool isCastle() { return castle; }
+    bool getColor() { return color; }
+
 
     // constructor de initializare
     Move(char colFrom_, char rowFrom_, char colTo_, char rowTo_, 
