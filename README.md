@@ -8,15 +8,15 @@
 ## Tema 1
 
 #### Cerințe
-- [ ] definirea a minim 3-4 clase folosind compunere
-- [ ] constructori de inițializare
-- [ ] pentru o clasă: constructor de copiere, `operator=` de copiere, destructor
+- [X] definirea a minim 3-4 clase folosind compunere
+- [X] constructori de inițializare
+- [X] pentru o clasă: constructor de copiere, `operator=` de copiere, destructor
 <!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
 <!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
-- [ ] `operator<<` pentru toate clasele
-- [ ] cât mai multe `const`
-- [ ] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese
-- [ ] scenariu de utilizare a claselor definite (crearea de obiecte și apelarea funcțiilor membru publice în main)
+- [X] `operator<<` pentru toate clasele
+- [X] cât mai multe `const`
+- [X] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese
+- [X] scenariu de utilizare a claselor definite (crearea de obiecte și apelarea funcțiilor membru publice în main)
 - [ ] tag de `git`: de exemplu `v0.1`
 - [ ] serviciu de integrare continuă (CI); exemplu: GitHub Actions
 
