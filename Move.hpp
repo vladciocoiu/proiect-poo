@@ -3,6 +3,7 @@
 #ifndef MOVE_H
 #define MOVE_H
 
+#include <string>
 
 class Move {
 private:
@@ -12,32 +13,25 @@ private:
 public:
 
     // getters and setters
-    bool isPromotion() { return promotion; }
-    std::string getPromotionPiece() { return promotionPiece; }
-    char getRowTo() { return rowTo; }
-    char getColTo() { return colTo; }
-    bool isEnPassant() { return enPassant; }
-    bool isCapture() { return capture; }
-    bool isCastle() { return castle; }
-    bool getColor() { return color; }
+    bool isPromotion() const { return promotion; }
+    std::string getPromotionPiece() const { return promotionPiece; }
+    char getRowTo() const { return rowTo; }
+    char getColTo() const { return colTo; }
+    char getRowFrom() const { return rowFrom; }
+    char getColFrom() const { return colFrom; }
+    bool isEnPassant() const { return enPassant; }
+    bool isCapture() const { return capture; }
+    bool isCastle() const { return castle; }
+    bool getColor() const { return color; }
 
 
     // constructor de initializare
     Move(char colFrom_, char rowFrom_, char colTo_, char rowTo_, 
          bool color_, bool capture_, bool enPassant_, bool castle_, bool promotion_, 
-         const std::string& promotionPiece_) 
-    : colFrom(colFrom_), rowFrom(rowFrom_), colTo(colTo_), rowTo(rowTo_), 
-      color(color_), capture(capture_), enPassant(enPassant_), castle(castle_), promotion(promotion_), 
-      promotionPiece(promotionPiece_) {
-        std::cout << "Init Move\n";
-    }
+         const std::string& promotionPiece_);
 
     // operator <<
-    friend std::ostream& operator<<(std::ostream& os, const Move& mv) {
-        os << "Move from square  (" << mv.rowFrom << ", " << mv.colFrom <<  ") to (" 
-                                << mv.rowTo << ", " << mv.colTo << ")" << "\n";
-        return os;
-    }
+    friend std::ostream& operator<<(std::ostream& os, const Move& mv);
 };
 
 #endif

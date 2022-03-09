@@ -19,7 +19,7 @@ int main() {
 
     std::cout << pc;
 
-    // pc.makeMove(knightMoves[0]);
+    pc.makeMove(mv);
 
     std::cout << pc;
 

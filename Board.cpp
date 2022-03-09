@@ -13,7 +13,7 @@ void Board::addPiece(Piece pc) {
 
 // get squares occupied by friendly pieces
 // needed for move generation
-std::set<std::pair<char, char>> Board::getOccupiedSquares(bool color) {
+std::set<std::pair<char, char>> Board::getOccupiedSquares(bool color) const {
     std::set<std::pair<char, char>> sq;
     for (Piece pc: pieces) {
         if(pc.getColor() == color) {
