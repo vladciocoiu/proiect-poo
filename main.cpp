@@ -7,7 +7,7 @@
 #include "Move.hpp"
 
 int main() {
-    Board bd {{}};
+    Board bd;
     std::cout << bd;
     Piece pc {"knight", 1, 0, true}; // white knight on B1
     bd.addPiece(pc);
