@@ -72,7 +72,7 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
 // method for making a move
 // still have to make en passant, captures and castles
 // SHOULD ONLY HAVE LEGAL MOVES AS ARGUMENTS
-void Piece::makeMove(Move m) {
+void Piece::makeMove(const Move& m) {
     
     // change piece type if promoted
     if(m.isPromotion()) type = m.getPromotionPiece();

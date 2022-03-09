@@ -47,7 +47,7 @@ public:
     // method for making a move
     // still have to make en passant, captures and castles
     // SHOULD ONLY HAVE LEGAL MOVES AS ARGUMENTS
-    void makeMove(Move m);
+    void makeMove(const Move& m);
 
 };
 

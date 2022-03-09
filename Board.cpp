@@ -2,7 +2,7 @@
 
 #include "Board.hpp"
 
-Board::Board(std::vector<Piece> pieces_) : pieces(pieces_) {
+Board::Board(const std::vector<Piece>& pieces_) : pieces(pieces_) {
         std::cout << "Init Board\n";
     }
 
