@@ -13,7 +13,7 @@ private:
 public:
 
     // constructor de initializare
-    Board(std::vector<Piece> pieces_ = {});
+    Board(std::vector<Piece> pieces_);
 
     // operator <<
     friend std::ostream& operator<<(std::ostream& os, const Board& bd);

@@ -10,6 +10,7 @@
 
 #include "Move.hpp"
 // #include "Board.hpp"
+class Board;
 
 class Piece {
 private:
@@ -41,7 +42,7 @@ public:
     // generates all pseudo-legal moves
     // (doesn't care about leaving the king in check)
     // only implemented for knights now, will probably make separate classes for each piece type later
-    // std::vector<Move> generatePseudoLegalMoves(Board bd);
+    std::vector<Move> generatePseudoLegalMoves(const Board& bd);
 
     // method for making a move
     // still have to make en passant, captures and castles
