@@ -15,7 +15,7 @@ int main() {
     Move mv {1, 0, 0, 2, true, false, false, false, false, ""}; // the knight moves from B1 to A3
 
     std::vector<Move> knightMoves = pc.generatePseudoLegalMoves(bd);
-    for (Move mv: knightMoves) std::cout << mv;
+    for (Move mov: knightMoves) std::cout << mov;
 
     std::cout << pc;
 
