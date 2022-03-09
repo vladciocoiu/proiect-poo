@@ -3,8 +3,8 @@
 #include "Board.hpp"
 
 Board::Board(const std::vector<Piece>& pieces_) : pieces(pieces_) {
-        std::cout << "Init Board\n";
-    }
+    std::cout << "Init Board\n";
+}
 
 // add piece to pieces vector
 void Board::addPiece(Piece pc) {
