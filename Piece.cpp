@@ -103,7 +103,7 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
         static const int ROW_OFFSET = (color ? 1 : -1);
 
         // needed for the 2 square move (pawns can only move 2 squares from their initial row)
-        static const int STARTING_ROW = (color ? 1 : 6);
+        // static const int STARTING_ROW = (color ? 1 : 6);
 
         // the row where the pawn can promote
         static const int PROMOTION_ROW = (color ? 7 : 0);
