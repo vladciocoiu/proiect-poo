@@ -44,8 +44,8 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
 
         // all directions the knight can move to
         const std::pair<char, char> offsets[8] = {
-            {1, 2}, {-1, 2}, {1, -2}, {-1, -2},
-            {2, 1}, {-2, 1}, {2, -1}, {-2, -1}
+            {(char)1, (char)2}, {(char)-1, (char)2}, {(char)1, (char)-2}, {(char)-1, (char)-2},
+            {(char)2, (char)1}, {(char)-2, (char)1}, {(char)2, (char)-1}, {(char)-2, (char)-1}
         };
 
         for (std::pair<char, char> offset: offsets) {

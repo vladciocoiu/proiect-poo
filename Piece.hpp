@@ -21,7 +21,7 @@ public:
 
     // getters and setters
     bool getColor() { return color; }
-    std::pair<char, char> getSquare() { return {row, col}; }
+    std::pair<char, char> getSquare() { return {(char)row, (char)col}; }
 
     // constructor de initializare
     Piece(const std::string& type_, char col_, char row_, bool color_);
