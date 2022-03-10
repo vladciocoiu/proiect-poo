@@ -2,7 +2,7 @@
 
 #include "Board.hpp"
 
-Board::Board(const std::vector<Piece>& pieces_) : pieces(pieces_) {
+Board::Board(const std::vector<Piece>& pieces_) : pieces{pieces_} {
     std::cout << "Init Board\n";
 }
 
@@ -13,8 +13,8 @@ void Board::addPiece(Piece pc) {
 
 // get squares occupied by friendly pieces
 // needed for move generation
-std::set<std::pair<char, char>> Board::getOccupiedSquares(bool color) const {
-    std::set<std::pair<char, char>> sq;
+std::set<std::pair<int, int>> Board::getOccupiedSquares(bool color) const {
+    std::set<std::pair<int, int>> sq;
     for (Piece pc: pieces) {
         if(pc.getColor() == color) {
             sq.insert(pc.getSquare());

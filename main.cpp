@@ -8,9 +8,9 @@
 
 int main() {
     Board bd;
-    std::cout << bd;
     Piece pc {"knight", 1, 0, true}; // white knight on B1
     bd.addPiece(pc);
+    std::cout << bd;    
 
     Move mv {1, 0, 0, 2, true, false, false, false, false, ""}; // the knight moves from B1 to A3
 

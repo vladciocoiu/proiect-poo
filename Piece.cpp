@@ -2,13 +2,13 @@
 #include "Board.hpp"
 
 // constructor de initializare
-Piece::Piece(const std::string& type_, char col_, char row_, bool color_) 
-: type(type_), col(col_), row(row_), color(color_) {
+Piece::Piece(const std::string& type_, int col_, int row_, bool color_) 
+: type{type_}, col{col_}, row{row_}, color{color_} {
     std::cout << "Init Piece\n";
 }
 
 // constructor de copiere
-Piece::Piece(const Piece& other) : type(other.type), col(other.col), row(other.row), color(other.color) {
+Piece::Piece(const Piece& other) : type{other.type}, col{other.col}, row{other.row}, color{other.color} {
     std::cout << "Copy Piece\n";
 }
 
@@ -30,7 +30,7 @@ Piece::~Piece() {
 // operator <<
 std::ostream& operator<<(std::ostream& os, const Piece& pc) {
     os << (pc.color ? "White " : "Black ") << pc.type << " on square ("
-        << pc.row << ", " << pc.col << ")" << '\n';
+        << pc.getSquare().first << ", " << pc.getSquare().second << ")" << '\n';
     return os;
 }
 
@@ -43,16 +43,16 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
     if (type == "knight") {
 
         // all directions the knight can move to
-        const std::pair<char, char> offsets[8] = {
-            {(char)1, (char)2}, {(char)-1, (char)2}, {(char)1, (char)-2}, {(char)-1, (char)-2},
-            {(char)2, (char)1}, {(char)-2, (char)1}, {(char)2, (char)-1}, {(char)-2, (char)-1}
+        const std::pair<int, int> offsets[8] = {
+            {1, 2}, {-1, 2}, {1, -2}, {-1, -2},
+            {2, 1}, {-2, 1}, {2, -1}, {-2, -1}
         };
 
-        for (std::pair<char, char> offset: offsets) {
-            std::set<std::pair<char, char>> occupiedSquares = bd.getOccupiedSquares(color);
+        for (std::pair<int, int> offset: offsets) {
+            std::set<std::pair<int, int>> occupiedSquares = bd.getOccupiedSquares(color);
 
-            char newRow = row + offset.first;
-            char newCol = col + offset.second;
+            int newRow = row + offset.first;
+            int newCol = col + offset.second;
 
             // move is out of bounds, so we skip it
             if(newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) continue;

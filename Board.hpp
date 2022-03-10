@@ -23,7 +23,7 @@ public:
 
     // method that returns a list of occupied squares 
     // needed for move generation
-    std::set<std::pair<char, char>> getOccupiedSquares(bool color) const;
+    std::set<std::pair<int, int>> getOccupiedSquares(bool color) const;
 };
 
 #endif

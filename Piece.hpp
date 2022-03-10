@@ -15,16 +15,16 @@ class Board;
 class Piece {
 private:
     std::string type; // "pawn", "knight", "bishop", "rook", "queen", or "king"
-    char col, row; // 0 - 7
+    int col, row; // 0 - 7
     bool color; // 0 for black, 1 for white
 public:
 
     // getters and setters
-    bool getColor() { return color; }
-    std::pair<char, char> getSquare() { return {(char)row, (char)col}; }
+    bool getColor() const { return color; }
+    std::pair<int, int> getSquare() const { return {row, col}; }
 
     // constructor de initializare
-    Piece(const std::string& type_, char col_, char row_, bool color_);
+    Piece(const std::string& type_, int col_, int row_, bool color_);
 
     // constructor de copiere
     Piece(const Piece& other);
