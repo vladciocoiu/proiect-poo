@@ -7,7 +7,7 @@ Board::Board(const std::vector<Piece>& pieces_) : pieces{pieces_} {
 }
 
 // add piece to pieces vector
-void Board::addPiece(Piece pc) {
+void Board::addPiece(const Piece& pc) {
     pieces.push_back(pc);
 }
 

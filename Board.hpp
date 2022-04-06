@@ -19,7 +19,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Board& bd);
 
     // add a piece to the pieces vector
-    void addPiece(Piece pc);
+    void addPiece(const Piece& pc);
 
     // method that returns a list of occupied squares 
     // needed for move generation

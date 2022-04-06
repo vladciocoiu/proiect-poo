@@ -58,37 +58,6 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
                 {1, 1}, {-1, 1}, {1, -1}, {-1, -1}
             }
         },
-        {
-            "bishop", 
-            {
-                {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, 
-                {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}, 
-                {1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
-                {-1, -1}, {-2, -2}, {-3, -3}, {-4, -4}, {-5, -5}, {-6, -6}, {-7, -7} 
-            }
-        },
-        {
-            "rook", 
-            {
-                {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0},
-                {-1, 0}, {-2, 0}, {-3, 0}, {-4, 0}, {-5, 0}, {-6, 0}, {-7, 0},
-                {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7},
-                {0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}
-            }
-        },
-        {
-            "queen", 
-            {
-                {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, 
-                {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}, {-8, 8}, 
-                {1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7}, {8, -8}, 
-                {-1, -1}, {-2, -2}, {-3, -3}, {-4, -4}, {-5, -5}, {-6, -6}, {-7, -7}, {-8, -8}, 
-                {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0},
-                {-1, 0}, {-2, 0}, {-3, 0}, {-4, 0}, {-5, 0}, {-6, 0}, {-7, 0},
-                {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7},
-                {0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}
-            },
-        }
     };
 
     std::vector<Move> moves;
@@ -96,6 +65,61 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
     // get squares occupied by friendly pieces
     std::set<std::pair<int, int>> occupiedSquares = bd.getOccupiedSquares(color);
 
+    // squares occupied by enemy pieces
+    std::set<std::pair<int, int>> enemySquares = bd.getOccupiedSquares(!color);
+
+    if(type == "bishop" || type == "queen") {
+        const std::pair<int, int> square = getSquare();
+        
+        // signs for all 4 directions
+        std::vector<std::pair<int, int>> dirs = {{1, 1}, {-1, -1}, {-1, 1}, { 1, -1}};
+
+        // loop through all directions
+        for(std::pair<int, int> sign: dirs) {
+            for (int offset = 1; offset < 8; offset++) {
+                int newRow = square.first + sign.first * offset;
+                int newCol = square.second; + sign.second * offset;
+
+                // out of bounds;
+                if(newRow >= 8 || newCol >= 8 || newRow < 0 || newCol < 0) break;
+
+                // square is occupied
+                if(occupiedSquares.count({ newRow, newCol })) break;
+
+                // add move
+                moves.push_back(Move{square.second, square.first, newCol, newRow, color, false, false, false, false, ""});
+
+                // break after finding an enemy piece
+                if(enemySquares.count({ newRow, newCol })) break;
+            }
+        }
+    }  
+    if(type == "rook" || type == "queen") {
+        const std::pair<int, int> square = getSquare();
+        
+        // signs for all 4 directions
+        std::vector<std::pair<int, int>> dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+        // loop through all directions
+        for(std::pair<int, int> sign: dirs) {
+            for (int offset = 1; offset < 8; offset++) {
+                int newRow = square.first + sign.first * offset;
+                int newCol = square.second; + sign.second * offset;
+
+                // out of bounds;
+                if(newRow >= 8 || newCol >= 8 || newRow < 0 || newCol < 0) break;
+
+                // square is occupied
+                if(occupiedSquares.count({ newRow, newCol })) break;
+
+                // add move
+                moves.push_back(Move{square.second, square.first, newCol, newRow, color, false, false, false, false, ""});
+
+                // break after finding an enemy piece
+                if(enemySquares.count({ newRow, newCol })) break;
+            }
+        }
+    }  
     if (type == "pawn") {
         // TODO: code en passant
 
@@ -120,11 +144,12 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
             }
         }
 
-    } else {
-        for (std::pair<int, int> offset: OFFSETS.at(type)) {
+    } 
+    if(type == "king" || type == "knight") {
+        for (auto [rowOffset, colOffset]: OFFSETS.at(type)) {
 
-            int newRow = row + offset.first;
-            int newCol = col + offset.second;
+            int newRow = row + rowOffset;
+            int newCol = col + colOffset;
 
             // move is out of bounds, so we skip it
             if(newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) continue;
