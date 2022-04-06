@@ -78,7 +78,7 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
         for(std::pair<int, int> sign: dirs) {
             for (int offset = 1; offset < 8; offset++) {
                 int newRow = square.first + sign.first * offset;
-                int newCol = square.second; + sign.second * offset;
+                int newCol = square.second + sign.second * offset;
 
                 // out of bounds;
                 if(newRow >= 8 || newCol >= 8 || newRow < 0 || newCol < 0) break;
@@ -104,7 +104,7 @@ std::vector<Move> Piece::generatePseudoLegalMoves(const Board& bd) {
         for(std::pair<int, int> sign: dirs) {
             for (int offset = 1; offset < 8; offset++) {
                 int newRow = square.first + sign.first * offset;
-                int newCol = square.second; + sign.second * offset;
+                int newCol = square.second + sign.second * offset;
 
                 // out of bounds;
                 if(newRow >= 8 || newCol >= 8 || newRow < 0 || newCol < 0) break;
