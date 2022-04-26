@@ -37,9 +37,9 @@ int main() {
         std::shared_ptr<Piece> k(new King(2, 1, true));
 
         pc->generateLegalMoves(*std::dynamic_pointer_cast<King> (k), knightMoves, *bd);
-    } catch (app_error err) {
+    } catch (app_error &err) {
         std::cout << "APP ERROR " << err.what() << '\n';
-    } catch(std::exception err) {
+    } catch(std::exception &err) {
         std::cout << err.what() << '\n';
     }
 
