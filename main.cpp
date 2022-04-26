@@ -30,5 +30,11 @@ int main() {
 
     std::cout << pc;
 
+
+    King k = King{Piece {1, 0, true}};
+    pc.generateLegalMoves(k, knightMoves, *bd);
+
+    delete bd;
+
     return 0;
 }
