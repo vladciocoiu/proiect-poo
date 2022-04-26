@@ -9,6 +9,8 @@
 #include <iostream>
 
 #include "Move.hpp"
+// #include "Board.hpp"
+// #include "King.hpp"
 
 // #include "Board.hpp"
 class Board;
