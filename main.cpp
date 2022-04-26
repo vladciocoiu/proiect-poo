@@ -15,7 +15,7 @@
 #include "Queen.hpp"
 
 int main() {
-    Board* bd = new Board();
+    std::shared_ptr<Board> bd (new Board());
     std::shared_ptr<Piece> pc(new Knight(1, 0, true));
     // Piece* pc = new Knight(1, 0, true);
     // Knight pc {Piece {1, 0, true}}; // white knight on B1
