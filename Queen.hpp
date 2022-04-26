@@ -10,7 +10,9 @@
 
 class Queen : public Piece {    
 public:
-    std::vector<Move> generatePseudoLegalMoves(const Board& bd);
+    Queen(int col_, int row_, bool color_);
+
+    virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd);
 };
 
 #endif

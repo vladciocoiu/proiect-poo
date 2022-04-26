@@ -3,6 +3,11 @@
 #include "Board.hpp"
 #include "King.hpp"
 
+Bishop::Bishop(int col_, int row_, bool color_) 
+: Piece(col_, row_, color_) {
+    std::cout << "Init Bishop\n";
+}
+
 std::vector<Move> Bishop::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

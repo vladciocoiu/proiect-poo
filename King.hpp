@@ -15,7 +15,9 @@ private:
     static const std::vector<std::pair<int, int>> OFFSETS;
     
 public:
-    std::vector<Move> generatePseudoLegalMoves(const Board& bd);
+    King(int col_, int row_, bool color_);
+
+    virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd);
 
     bool isInCheck(const Board& bd) const;
 };

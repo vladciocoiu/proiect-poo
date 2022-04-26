@@ -3,6 +3,11 @@
 #include "Board.hpp"
 #include "King.hpp"
 
+Rook::Rook(int col_, int row_, bool color_) 
+: Piece(col_, row_, color_) {
+    std::cout << "Init Rook\n";
+}
+
 std::vector<Move> Rook::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

@@ -10,7 +10,9 @@
 
 class Bishop : public Piece {    
 public:
-    std::vector<Move> generatePseudoLegalMoves(const Board& bd);
+    Bishop(int col_, int row_, bool color_);
+
+    virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd);
 };
 
 #endif

@@ -3,6 +3,11 @@
 #include "Board.hpp"
 #include "King.hpp"
 
+Pawn::Pawn(int col_, int row_, bool color_) 
+: Piece(col_, row_, color_) {
+    std::cout << "Init Pawn\n";
+}
+
 std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

@@ -40,7 +40,7 @@ public:
 
 
     // destructor 
-    ~Piece();
+    virtual ~Piece();
 
     // legal moves are all moves that are pseudo legal and don't put the friendly king in check
     std::vector<Move> generateLegalMoves(const King& friendlyKing, std::vector<Move> pseudoLegalMoves, const Board& bd);

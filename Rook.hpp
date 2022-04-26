@@ -10,7 +10,9 @@
 
 class Rook : public Piece {    
 public:
-    std::vector<Move> generatePseudoLegalMoves(const Board& bd);
+    Rook(int col_, int row_, bool color_);
+
+    virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd);
 };
 
 #endif

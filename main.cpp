@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <memory>
 
 #include "Piece.hpp"
 #include "Board.hpp"
@@ -15,26 +16,26 @@
 
 int main() {
     Board* bd = new Board();
-    Knight pc {Piece {1, 0, true}}; // white knight on B1
-    bd->addPiece(pc);
-    std::cout << bd;    
+    std::shared_ptr<Piece> pc(new Knight(1, 0, true));
+    // Piece* pc = new Knight(1, 0, true);
+    // Knight pc {Piece {1, 0, true}}; // white knight on B1
+    bd->addPiece(*pc);
+    std::cout << *bd;    
 
     Move mv {1, 0, 0, 2, true, false, false, false, false, ""}; // the knight moves from B1 to A3
 
-    std::vector<Move> knightMoves = pc.generatePseudoLegalMoves(*bd);
+    std::vector<Move> knightMoves = std::dynamic_pointer_cast<Knight>(pc)->generatePseudoLegalMoves(*bd);
     for (const Move& mov: knightMoves) std::cout << mov;
 
-    std::cout << pc;
+    std::cout << *pc;
 
-    pc.makeMove(mv);
+    pc->makeMove(mv);
 
-    std::cout << pc;
+    std::cout << *pc;
 
+    std::shared_ptr<Piece> k(new King(2, 1, true));
 
-    King k = King{Piece {1, 0, true}};
-    pc.generateLegalMoves(k, knightMoves, *bd);
-
-    delete bd;
+    pc->generateLegalMoves(*std::dynamic_pointer_cast<King> (k), knightMoves, *bd);
 
     return 0;
 }

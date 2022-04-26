@@ -7,6 +7,11 @@ const std::vector<std::pair<int, int>> King::OFFSETS = {
     {1, 1}, {-1, 1}, {1, -1}, {-1, -1}
 };
 
+King::King(int col_, int row_, bool color_) 
+: Piece(col_, row_, color_) {
+    std::cout << "Init King\n";
+}
+
 std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

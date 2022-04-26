@@ -3,6 +3,11 @@
 #include "Board.hpp"
 #include "King.hpp"
 
+Queen::Queen(int col_, int row_, bool color_) 
+: Piece(col_, row_, color_) {
+    std::cout << "Init Queen\n";
+}
+
 std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 
