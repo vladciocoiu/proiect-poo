@@ -4,7 +4,7 @@
 #include "King.hpp"
 
 std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {   
-    auto [row, col] = getSquare();
+    auto [currRow, currCol] = getSquare();
 
     std::vector<Move> moves;
 
@@ -20,8 +20,8 @@ std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {
     // loop through all directions
     for(std::pair<int, int> sign: dirs) {
         for (int offset = 1; offset < 8; offset++) {
-            int newRow = row + sign.first * offset;
-            int newCol = col + sign.second * offset;
+            int newRow = currRow + sign.first * offset;
+            int newCol = currCol + sign.second * offset;
 
             // out of bounds;
             if(newRow >= 8 || newCol >= 8 || newRow < 0 || newCol < 0) break;
@@ -30,7 +30,7 @@ std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {
             if(occupiedSquares.count({ newRow, newCol })) break;
 
             // add move
-            moves.push_back(Move{col, row, newCol, newRow, getColor(), false, false, false, false, ""});
+            moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), false, false, false, false, ""});
 
             // break after finding an enemy piece
             if(enemySquares.count({ newRow, newCol })) break;

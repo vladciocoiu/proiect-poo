@@ -4,7 +4,7 @@
 #include "King.hpp"
 
 std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {   
-    auto [row, col] = getSquare();
+    auto [currRow, currCol] = getSquare();
 
     std::vector<Move> moves;
 
@@ -27,18 +27,18 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     // static const int PROMOTION_ROW = (getColor() ? 7 : 0);
 
     // normal 1 square move
-    if(row + ROW_OFFSET >= 0 && row + ROW_OFFSET < 8 
-    && !occupiedSquares.count({row + ROW_OFFSET, col})
-    && !enemySquares.count({row + ROW_OFFSET, col})) {
-        moves.push_back(Move{col, row, col, row + ROW_OFFSET, getColor(), false, false, false, false, ""});
+    if(currRow + ROW_OFFSET >= 0 && currRow + ROW_OFFSET < 8 
+    && !occupiedSquares.count({currRow + ROW_OFFSET, currCol})
+    && !enemySquares.count({currRow + ROW_OFFSET, currCol})) {
+        moves.push_back(Move{currCol, currRow, currCol, currRow + ROW_OFFSET, getColor(), false, false, false, false, ""});
 
         // 2 square move
         // can be possible only if normal move is possible
-        if(row == STARTING_ROW && row + 2 * ROW_OFFSET >= 0 
-        && row + 2 * ROW_OFFSET < 8 
-        && !occupiedSquares.count({row + 2 * ROW_OFFSET, col})
-        && !enemySquares.count({row + 2 * ROW_OFFSET, col})) {
-            moves.push_back(Move{col, row, col, row + 2 * ROW_OFFSET, getColor(), false, false, false, false, ""});
+        if(currRow == STARTING_ROW && currRow + 2 * ROW_OFFSET >= 0 
+        && currRow + 2 * ROW_OFFSET < 8 
+        && !occupiedSquares.count({currRow + 2 * ROW_OFFSET, currCol})
+        && !enemySquares.count({currRow + 2 * ROW_OFFSET, currCol})) {
+            moves.push_back(Move{currCol, currRow, currCol, currRow + 2 * ROW_OFFSET, getColor(), false, false, false, false, ""});
         }
     }
 

@@ -8,7 +8,7 @@ const std::vector<std::pair<int, int>> King::OFFSETS = {
 };
 
 std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {   
-    auto [row, col] = getSquare();
+    auto [currRow, currCol] = getSquare();
 
     std::vector<Move> moves;
 
@@ -20,8 +20,8 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
 
 
     for (auto [rowOffset, colOffset]: OFFSETS) {
-        int newRow = row + rowOffset;
-        int newCol = col + colOffset;
+        int newRow = currRow + rowOffset;
+        int newCol = currCol + colOffset;
 
         // move is out of bounds, so we skip it
         if(newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) continue;
@@ -31,7 +31,7 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
 
         // make a new move that isn't a capture / castle / en passant / promotion
         // with the corresponding squares and color
-        moves.push_back(Move{col, row, newCol, newRow, getColor(), false, false, false, false, ""});
+        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), false, false, false, false, ""});
     }
 
     return moves;
