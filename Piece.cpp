@@ -37,7 +37,7 @@ std::ostream& operator<<(std::ostream& os, const Piece& pc) {
 }
 
 // make the move and check if the friendly king is in check
-std::vector<Move> Piece::generateLegalMoves(King& friendlyKing, std::vector<Move> pseudoLegalMoves, const Board& bd) {
+std::vector<Move> Piece::generateLegalMoves(const King& friendlyKing, std::vector<Move> pseudoLegalMoves, const Board& bd) {
     std::vector<Move> moves;
 
     for(const auto &move: pseudoLegalMoves) {

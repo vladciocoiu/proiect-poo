@@ -17,7 +17,7 @@ private:
 public:
     std::vector<Move> generatePseudoLegalMoves(const Board& bd);
 
-    bool isInCheck(const Board& bd);
+    bool isInCheck(const Board& bd) const;
 };
 
 #endif
