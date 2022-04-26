@@ -1,7 +1,6 @@
 #include <vector>
 #include "Knight.hpp"
 #include "Board.hpp"
-#include "King.hpp"
 
 const std::vector<std::pair<int, int>> Knight::OFFSETS = {
     {1, 2}, {-1, 2}, {1, -2}, {-1, -2},

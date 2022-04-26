@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "Piece.hpp"
-#include "King.hpp"
 
 class Knight : public Piece {
 private:
