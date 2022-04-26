@@ -7,6 +7,8 @@
 
 #include "Piece.hpp"
 
+class Piece;
+
 class Board {
 private:
     std::vector<Piece> pieces;

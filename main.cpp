@@ -6,9 +6,16 @@
 #include "Board.hpp"
 #include "Move.hpp"
 
+#include "Knight.hpp"
+#include "Pawn.hpp"
+#include "King.hpp"
+#include "Rook.hpp"
+#include "Bishop.hpp"
+#include "Queen.hpp"
+
 int main() {
     Board bd;
-    Piece pc {"knight", 1, 0, true}; // white knight on B1
+    Knight pc {Piece {1, 0, true}}; // white knight on B1
     bd.addPiece(pc);
     std::cout << bd;    
 

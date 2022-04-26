@@ -9,12 +9,13 @@
 #include <iostream>
 
 #include "Move.hpp"
+
 // #include "Board.hpp"
 class Board;
+class King;
 
 class Piece {
 private:
-    std::string type; // "pawn", "knight", "bishop", "rook", "queen", or "king"
     int col, row; // 0 - 7
     bool color; // 0 for black, 1 for white
 public:
@@ -24,7 +25,7 @@ public:
     std::pair<int, int> getSquare() const { return {row, col}; }
 
     // constructor de initializare
-    Piece(const std::string& type_, int col_, int row_, bool color_);
+    Piece(int col_, int row_, bool color_);
 
     // constructor de copiere
     Piece(const Piece& other);
@@ -39,15 +40,15 @@ public:
     // destructor 
     ~Piece();
 
-    // generates all pseudo-legal moves
-    // (doesn't care about leaving the king in check)
-    // only implemented for knights now, will probably make separate classes for each piece type later
-    std::vector<Move> generatePseudoLegalMoves(const Board& bd);
+    // legal moves are all moves that are pseudo legal and don't put the friendly king in check
+    std::vector<Move> generateLegalMoves(King& friendlyKing, std::vector<Move> pseudoLegalMoves, const Board& bd);
 
     // method for making a move
     // still have to make en passant, captures and castles
-    // SHOULD ONLY HAVE LEGAL MOVES AS ARGUMENTS
+    // SHOULD ONLY HAVE PSEUDO LEGAL MOVES AS ARGUMENTS
     void makeMove(const Move& m);
+
+    void unmakeMove(const Move& m);
 
 };
 
