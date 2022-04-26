@@ -65,5 +65,5 @@ void Piece::makeMove(const Move& m) {
 }
 
 void Piece::unmakeMove(const Move& m) {
-
+    int r = m.getRowTo();
 }
