@@ -39,5 +39,7 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
 
 // TODO: code this function that checks if the king is in check
 bool King::isInCheck(const Board& bd) const {
+    auto x = bd.getOccupiedSquares(0);
+    x.clear();
     return getSquare().first < 3;
 }
