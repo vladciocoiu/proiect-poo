@@ -30,9 +30,9 @@
   - [X] smart pointers
   - [X] `dynamic_cast`
 - [ ] suprascris cc/op= pentru copieri/atribuiri corecte, copy and swap
-- [ ] excepții
-  - [ ] ierarhie proprie (cu baza `std::exception` sau derivată din `std::exception`)
-  - [ ] utilizare cu sens: de exemplu, `throw` în constructor, `try`/`catch` în `main`
+- [X] excepții
+  - [X] ierarhie proprie (cu baza `std::exception` sau derivată din `std::exception`)
+  - [X] utilizare cu sens: de exemplu, `throw` în constructor, `try`/`catch` în `main`
 - [ ] funcții și atribute `static`
 - [X] STL
 - [X] cât mai multe `const`

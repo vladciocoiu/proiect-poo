@@ -1,12 +1,14 @@
 #include "Piece.hpp"
 #include "Board.hpp"
 #include "King.hpp"
+#include "Errors.hpp"
 
 #include <unordered_map>
 
 // constructor de initializare
 Piece::Piece(int col_, int row_, bool color_) 
 : col{col_}, row{row_}, color{color_} {
+    if(col_ < 0 || col_ >= 8 || row_ < 0 || row_ >= 8) throw piece_error{"Piece coordinates out of bounds."};
     std::cout << "Init Piece\n";
 }
 
