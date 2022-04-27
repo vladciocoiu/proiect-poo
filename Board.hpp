@@ -28,7 +28,7 @@ public:
     void addPiece(std::shared_ptr<Piece> pc) { pieces.insert(pc); };
     void removePiece(std::shared_ptr<Piece> pc) { pieces.erase(pc); }
 
-    std::shared_ptr<Piece> popCapturedPiece() { auto& piece = capturedPiecesStack.back(); capturedPiecesStack.pop_back(); return piece; };
+    std::shared_ptr<Piece> popCapturedPiece() { const auto& piece = capturedPiecesStack.back(); capturedPiecesStack.pop_back(); return piece; };
     void pushCapturedPiece(std::shared_ptr<Piece> pc) { capturedPiecesStack.push_back(pc); };
 
     int popEnPassantCol() { int col = enPassantColsStack.back(); enPassantColsStack.pop_back(); return col; };
