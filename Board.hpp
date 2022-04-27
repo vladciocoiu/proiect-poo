@@ -11,11 +11,11 @@ class Piece;
 
 class Board {
 private:
-    std::vector<Piece> pieces;
+    std::vector<std::shared_ptr<Piece>> pieces;
 public:
 
     // constructor de initializare
-    Board(const std::vector<Piece>& pieces_ = {});
+    Board(const std::vector<std::shared_ptr<Piece>>& pieces_ = {});
 
     // operator <<
     friend std::ostream& operator<<(std::ostream& os, const Board& bd);

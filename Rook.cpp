@@ -8,6 +8,10 @@ Rook::Rook(int col_, int row_, bool color_)
     std::cout << "Init Rook\n";
 }
 
+std::shared_ptr<Piece> Rook::clone() const {
+    return std::make_shared<Rook>(*this);
+}
+
 std::vector<Move> Rook::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

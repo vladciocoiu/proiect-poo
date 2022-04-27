@@ -6,6 +6,7 @@
 #include "Piece.hpp"
 #include "Board.hpp"
 #include "Move.hpp"
+#include "AI.hpp"
 #include "Errors.hpp"
 
 #include "Knight.hpp"

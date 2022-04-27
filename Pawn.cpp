@@ -8,6 +8,10 @@ Pawn::Pawn(int col_, int row_, bool color_)
     std::cout << "Init Pawn\n";
 }
 
+std::shared_ptr<Piece> Pawn::clone() const {
+    return std::make_shared<Pawn>(*this);
+}
+
 std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

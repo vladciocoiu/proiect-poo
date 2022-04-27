@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <iostream>
+#include <memory>
 
 #include "Move.hpp"
 // #include "Board.hpp"
@@ -20,6 +21,9 @@ class Piece {
 private:
     int col, row; // 0 - 7
     bool color; // 0 for black, 1 for white
+protected:
+    Piece(const Piece&) = default;
+    Piece& operator=(const Piece&) = default;
 public:
 
     // getters and setters
@@ -29,11 +33,13 @@ public:
     // constructor de initializare
     Piece(int col_, int row_, bool color_);
 
-    // constructor de copiere
-    Piece(const Piece& other);
+    virtual std::shared_ptr<Piece> clone() const = 0;
 
-    // operator =
-    Piece& operator=(const Piece& other);
+    // // constructor de copiere
+    // Piece(const Piece& other);
+
+    // // operator =
+    // Piece& operator=(const Piece& other);
 
     // operator <<
     friend std::ostream& operator<<(std::ostream& os, const Piece& pc);

@@ -8,6 +8,10 @@ Queen::Queen(int col_, int row_, bool color_)
     std::cout << "Init Queen\n";
 }
 
+std::shared_ptr<Piece> Queen::clone() const {
+    return std::make_shared<Queen>(*this);
+}
+
 std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

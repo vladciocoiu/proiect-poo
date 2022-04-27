@@ -12,6 +12,11 @@ Knight::Knight(int col_, int row_, bool color_)
     std::cout << "Init Knight\n";
 }
 
+std::shared_ptr<Piece> Knight::clone() const {
+    return std::make_shared<Knight>(*this);
+}
+
+
 std::vector<Move> Knight::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

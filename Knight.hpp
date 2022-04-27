@@ -4,6 +4,7 @@
 #define KNIGHT_H
 
 #include <vector>
+#include <memory>
 
 #include "Piece.hpp"
 
@@ -15,6 +16,8 @@ private:
     
 public:
     Knight(int col_, int row_, bool color_);
+    std::shared_ptr<Piece> clone() const override;
+
     virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd);
 };
 

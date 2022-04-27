@@ -12,19 +12,19 @@ Piece::Piece(int col_, int row_, bool color_)
     std::cout << "Init Piece\n";
 }
 
-// constructor de copiere
-Piece::Piece(const Piece& other) : col{other.col}, row{other.row}, color{other.color} {
-    std::cout << "Copy Piece\n";
-}
+// // constructor de copiere
+// Piece::Piece(const Piece& other) : col{other.col}, row{other.row}, color{other.color} {
+//     std::cout << "Copy Piece\n";
+// }
 
-// operator =
-Piece& Piece::operator=(const Piece& other) {
-    col = other.col;
-    row = other.row;
-    color = other.color;
-    std::cout << "= Piece\n";
-    return *this;
-}
+// // operator =
+// Piece& Piece::operator=(const Piece& other) {
+//     col = other.col;
+//     row = other.row;
+//     color = other.color;
+//     std::cout << "= Piece\n";
+//     return *this;
+// }
 
 // destructor
 Piece::~Piece() {
@@ -33,8 +33,8 @@ Piece::~Piece() {
 
 // operator <<
 std::ostream& operator<<(std::ostream& os, const Piece& pc) {
-    os << (pc.color ? "White " : "Black ") << " on square ("
-        << pc.getSquare().first << ", " << pc.getSquare().second << ")" << '\n';
+    os << (pc.color ? "White " : "Black ") << "piece on square ("
+       << pc.getSquare().first << ", " << pc.getSquare().second << ")" << '\n';
     return os;
 }
 

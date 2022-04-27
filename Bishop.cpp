@@ -8,6 +8,10 @@ Bishop::Bishop(int col_, int row_, bool color_)
     std::cout << "Init Bishop\n";
 }
 
+std::shared_ptr<Piece> Bishop::clone() const {
+    return std::make_shared<Bishop>(*this);
+}
+
 std::vector<Move> Bishop::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 

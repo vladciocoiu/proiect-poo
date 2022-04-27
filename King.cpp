@@ -12,6 +12,10 @@ King::King(int col_, int row_, bool color_)
     std::cout << "Init King\n";
 }
 
+std::shared_ptr<Piece> King::clone() const {
+    return std::make_shared<King>(*this);
+}
+
 std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {   
     auto [currRow, currCol] = getSquare();
 
