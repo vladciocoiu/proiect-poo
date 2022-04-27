@@ -41,7 +41,7 @@ std::vector<Move> Knight::generatePseudoLegalMoves(const Board& bd) {
 
         // make a new move that isn't a capture / castle / en passant / promotion
         // with the corresponding squares and color
-        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), false, false, false, false, ""});
+        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), (bool)enemySquares.count({ newRow, newCol }), false, false, false, ""});
     }
 
     return moves;

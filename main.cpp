@@ -22,7 +22,7 @@ int main() {
         std::shared_ptr<Piece> pc(new Knight(1, 0, true));
         std::shared_ptr<Move> mv(new Move(1, 0, 0, 2, true, false, false, false, false, ""));
 
-        bd->addPiece(*pc);
+        bd->addPiece(pc);
         std::cout << *bd;    
 
         std::vector<Move> knightMoves = std::dynamic_pointer_cast<Knight>(pc)->generatePseudoLegalMoves(*bd);
@@ -31,9 +31,11 @@ int main() {
         std::cout << *pc;
 
         // the knight moves from B1 to A3
-        pc->makeMove(*mv);
+        bd->makeMove(*pc, *mv);
 
         std::cout << *pc;
+
+        bd->unmakeMove(*pc, *mv);
 
         std::shared_ptr<Piece> k(new King(2, 1, true));
 
@@ -41,7 +43,7 @@ int main() {
 
         AI::evaluate(*bd);
         AI::search(10, *bd);
-        
+
     } catch (app_error &err) {
         std::cout << "APP ERROR " << err.what() << '\n';
     } catch(std::exception &err) {

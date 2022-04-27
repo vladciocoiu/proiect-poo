@@ -39,7 +39,7 @@ std::vector<Move> Rook::generatePseudoLegalMoves(const Board& bd) {
             if(occupiedSquares.count({ newRow, newCol })) break;
 
             // add move
-            moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), false, false, false, false, ""});
+            moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), (bool)enemySquares.count({ newRow, newCol }), false, false, false, ""});
 
             // break after finding an enemy piece
             if(enemySquares.count({ newRow, newCol })) break;

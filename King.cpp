@@ -40,15 +40,50 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
 
         // make a new move that isn't a capture / castle / en passant / promotion
         // with the corresponding squares and color
-        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), false, false, false, false, ""});
+        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), (bool)enemySquares.count({ newRow, newCol }), false, false, false, ""});
+    }
+
+    // castle moves
+    int castleShortBit = (getColor() ? 0 : 2);
+    int castleLongBit = (getColor() ? 1 : 3);
+
+    // no pieces should be between the rook and king
+
+    // short castle (e1g1 / e8g8)
+    if(bd.getCastleRights() && castleShortBit) {
+        bool ok = true;
+        for(int col = 5; col <= 6; col++) {
+            if(occupiedSquares.count({currRow, col}) || enemySquares.count({currRow, col})) {
+                ok = false;
+            }
+        }
+        if(ok) moves.push_back(Move{currCol, currRow, currCol + 2, currRow, getColor(), false, false, true, false, ""});
+    }
+
+    // long castle (e1c1 / e8c8)
+    if(bd.getCastleRights() && castleLongBit) {
+        bool ok = true;
+        for(int col = 1; col <= 3; col++) {
+            if(occupiedSquares.count({currRow, col}) || enemySquares.count({currRow, col})) {
+                ok = false;
+            }        
+        }
+        if(ok) moves.push_back(Move{currCol, currRow, currCol - 2, currRow, getColor(), false, false, true, false, ""}); 
     }
 
     return moves;
 }
 
-// TODO: code this function that checks if the king is in check
 bool King::isInCheck(const Board& bd) const {
-    auto x = bd.getOccupiedSquares(0);
-    x.clear();
-    return getSquare().first < 3;
+    auto pieces = bd.getPieces();
+    for(auto piece: pieces) {
+        if(piece->getColor() != getColor()) {
+            auto moves = piece->generatePseudoLegalMoves(bd);
+            for (auto move: moves) {
+                if(move.getRowTo() == getSquare().first && move.getColTo() == getSquare().second) return true;
+            }
+
+        }
+    }
+    return false;
 }

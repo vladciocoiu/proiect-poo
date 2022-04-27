@@ -24,7 +24,7 @@ std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {
     std::set<std::pair<int, int>> enemySquares = bd.getOccupiedSquares(!getColor());
     
     // signs for all directions
-    std::vector<std::pair<int, int>> dirs = {{1, 1}, {-1, -1}, {-1, 1}, { 1, -1}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    std::vector<std::pair<int, int>> dirs = {{1, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     // loop through all directions
     for(std::pair<int, int> sign: dirs) {
@@ -39,7 +39,7 @@ std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {
             if(occupiedSquares.count({ newRow, newCol })) break;
 
             // add move
-            moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), false, false, false, false, ""});
+            moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), (bool)enemySquares.count({ newRow, newCol }), false, false, false, ""});
 
             // break after finding an enemy piece
             if(enemySquares.count({ newRow, newCol })) break;

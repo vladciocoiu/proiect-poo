@@ -13,7 +13,6 @@ class Board;
 class King : public Piece {
 private:
     static const std::vector<std::pair<int, int>> OFFSETS;
-    
 public:
     King(int col_, int row_, bool color_);
 

@@ -29,6 +29,7 @@ public:
     // getters and setters
     bool getColor() const { return color; }
     std::pair<int, int> getSquare() const { return {row, col}; }
+    void setSquare(std::pair<int, int> sq) { row = sq.first, col = sq.second; };
 
     // constructor de initializare
     Piece(int col_, int row_, bool color_);
@@ -48,15 +49,10 @@ public:
     // destructor 
     virtual ~Piece();
 
+    virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd) = 0;
+
     // legal moves are all moves that are pseudo legal and don't put the friendly king in check
-    std::vector<Move> generateLegalMoves(const King& friendlyKing, std::vector<Move> pseudoLegalMoves, const Board& bd);
-
-    // method for making a move
-    // still have to make en passant, captures and castles
-    // SHOULD ONLY HAVE PSEUDO LEGAL MOVES AS ARGUMENTS
-    void makeMove(const Move& m);
-
-    void unmakeMove(const Move& m);
+    std::vector<Move> generateLegalMoves(const King& friendlyKing, std::vector<Move> pseudoLegalMoves, Board& bd);
 
 };
 

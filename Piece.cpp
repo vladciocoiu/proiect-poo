@@ -39,34 +39,35 @@ std::ostream& operator<<(std::ostream& os, const Piece& pc) {
 }
 
 // make the move and check if the friendly king is in check
-std::vector<Move> Piece::generateLegalMoves(const King& friendlyKing, std::vector<Move> pseudoLegalMoves, const Board& bd) {
+// TODO: fix some bugs here
+std::vector<Move> Piece::generateLegalMoves(const King& friendlyKing, std::vector<Move> pseudoLegalMoves, Board& bd) {
     std::vector<Move> moves;
 
     for(const auto &move: pseudoLegalMoves) {
-        makeMove(move);
+        bd.makeMove(*this, move);
 
-        if(!friendlyKing.isInCheck(bd)) moves.push_back(move);
+        if(!friendlyKing.isInCheck(bd) && !move.isCastle()) moves.push_back(move);
 
-        unmakeMove(move);
+        bd.unmakeMove(*this, move);
+    }
+
+    // special case for castle moves: no square should be attacked between initial and end square of the king
+    for(const auto &move: pseudoLegalMoves) {
+        if(!move.isCastle()) continue;
+        bool ok = true;
+        for(auto piece: bd.getPieces()) {
+            if(piece->getColor() == color) continue;
+            auto moves = piece->generatePseudoLegalMoves(bd);
+            for(auto mv: moves) {
+                if(mv.getRowTo() == row && mv.getColTo() >= std::min(move.getColTo(), move.getColFrom()) && mv.getColTo() <= std::max(move.getColTo(), move.getColFrom())) {
+                    ok = false;
+                    break;
+                }
+            }
+            if(!ok) break;
+        }
+        if(ok) moves.push_back(move);
     }
 
     return moves;
-}
-
-// method for making a move
-// still have to make en passant, captures and castles
-// SHOULD ONLY HAVE LEGAL MOVES AS ARGUMENTS
-void Piece::makeMove(const Move& m) {
-    
-    // change piece type if promoted
-    // if(m.isPromotion()) type = m.getPromotionPiece();
-
-    // change row and col
-    row = m.getRowTo();
-    col = m.getColTo();
-}
-
-void Piece::unmakeMove(const Move& m) {
-    int r = m.getRowTo();
-    std::cout << r << '\n';
 }
