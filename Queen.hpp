@@ -14,7 +14,7 @@ public:
     
     std::shared_ptr<Piece> clone() const override;
 
-    virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd);
+    virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd) override;
 };
 
 #endif

@@ -52,8 +52,8 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
     // short castle (e1g1 / e8g8)
     if(bd.getCastleRights() && castleShortBit) {
         bool ok = true;
-        for(int col = 5; col <= 6; col++) {
-            if(occupiedSquares.count({currRow, col}) || enemySquares.count({currRow, col})) {
+        for(int c = 5; c <= 6; c++) {
+            if(occupiedSquares.count({currRow, c}) || enemySquares.count({currRow, c})) {
                 ok = false;
             }
         }
@@ -63,8 +63,8 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
     // long castle (e1c1 / e8c8)
     if(bd.getCastleRights() && castleLongBit) {
         bool ok = true;
-        for(int col = 1; col <= 3; col++) {
-            if(occupiedSquares.count({currRow, col}) || enemySquares.count({currRow, col})) {
+        for(int c = 1; c <= 3; c++) {
+            if(occupiedSquares.count({currRow, c}) || enemySquares.count({currRow, c})) {
                 ok = false;
             }        
         }
