@@ -1,4 +1,5 @@
 #include <set>
+#include <algorithm>
 
 #include "Board.hpp"
 #include "Pawn.hpp"
@@ -12,6 +13,7 @@ Board::Board(const std::unordered_set<std::shared_ptr<Piece>>& pieces_) : pieces
     std::cout << "Init Board\n";
     enPassantCol = -1;
     castleRights = 15;
+    turn = true;
 }
 
 // get squares occupied by friendly pieces
@@ -67,13 +69,11 @@ void Board::makeMove(Piece& piece, const Move& m) {
     // if capture remove the captured piece and push it to the stack
     if(m.isCapture()) {
         int capturedPieceRow = m.getRowTo() + (m.isEnPassant() ? (turn ? -1 : 1) : 0);
-        for(auto pc: pieces) {
-            if(pc->getSquare().first == capturedPieceRow && pc->getSquare().second == m.getColTo()) {
-                pushCapturedPiece(pc);
-                removePiece(pc);
-                break;
-            }
-        }
+        auto pc = std::find_if(pieces.begin(), pieces.end(), [m, capturedPieceRow](std::shared_ptr<Piece> pc) { 
+            return pc->getSquare().first == capturedPieceRow && pc->getSquare().second == m.getColTo();
+        });
+        pushCapturedPiece(*pc);
+        removePiece(*pc);
     }
 
     // if castle move the rook

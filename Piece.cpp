@@ -57,8 +57,8 @@ std::vector<Move> Piece::generateLegalMoves(const King& friendlyKing, std::vecto
         bool ok = true;
         for(auto piece: bd.getPieces()) {
             if(piece->getColor() == color) continue;
-            auto moves = piece->generatePseudoLegalMoves(bd);
-            for(auto mv: moves) {
+            auto mvs = piece->generatePseudoLegalMoves(bd);
+            for(auto mv: mvs) {
                 if(mv.getRowTo() == row && mv.getColTo() >= std::min(move.getColTo(), move.getColFrom()) && mv.getColTo() <= std::max(move.getColTo(), move.getColFrom())) {
                     ok = false;
                     break;

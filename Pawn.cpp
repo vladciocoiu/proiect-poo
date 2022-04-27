@@ -1,4 +1,6 @@
 #include <vector>
+#include <algorithm>
+
 #include "Pawn.hpp"
 #include "Board.hpp"
 #include "King.hpp"
@@ -13,7 +15,8 @@ std::shared_ptr<Piece> Pawn::clone() const {
 }
 
 std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {   
-    auto [currRow, currCol] = getSquare();
+    int currRow = getSquare().first;
+    int currCol = getSquare().second;
 
     std::vector<Move> moves;
 
@@ -36,9 +39,10 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     // en passant
     if(abs(bd.getEnPassantCol() - currCol) == 1 && currRow == (getColor() ? 4 : 3)) {
         if(currRow + ROW_OFFSET == PROMOTION_ROW) {
-            for(const std::string promotionPiece: {"knight", "bishop", "rook", "queen"}) {
-                moves.push_back(Move{currCol, currRow, bd.getEnPassantCol(), currRow + ROW_OFFSET, getColor(), true, true, false, true, promotionPiece});
-            }
+            std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
+            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [bd, this, currRow, currCol](std::string promotionPiece) {
+                return Move{currCol, currRow, bd.getEnPassantCol(), currRow + ROW_OFFSET, getColor(), true, true, false, true, promotionPiece};
+            });
         } else {
             moves.push_back(Move{currCol, currRow, bd.getEnPassantCol(), currRow + ROW_OFFSET, getColor(), true, true, false, false, ""});
         }
@@ -49,9 +53,11 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     && !occupiedSquares.count({currRow + ROW_OFFSET, currCol})
     && !enemySquares.count({currRow + ROW_OFFSET, currCol})) {
         if(currRow + ROW_OFFSET == PROMOTION_ROW) {
-            for(const std::string promotionPiece: {"knight", "bishop", "rook", "queen"}) {
-                moves.push_back(Move{currCol, currRow, currCol, currRow + ROW_OFFSET, getColor(), false, false, false, true, promotionPiece});
-            } 
+            std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
+            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol](std::string promotionPiece) {
+                return Move{currCol, currRow, currCol, currRow + ROW_OFFSET, getColor(), false, false, false, true, promotionPiece};
+
+            });
         } else {
             moves.push_back(Move{currCol, currRow, currCol, currRow + ROW_OFFSET, getColor(), false, false, false, false, ""});
         }
@@ -70,9 +76,10 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
         if(nextCol < 0 || nextCol >= 8) continue;
         if(enemySquares.count({currRow + ROW_OFFSET, nextCol})) {
             if(currRow + ROW_OFFSET == PROMOTION_ROW) {
-                for(const std::string promotionPiece: {"knight", "bishop", "rook", "queen"}) {
-                    moves.push_back(Move{currCol, currRow, nextCol, currRow + ROW_OFFSET, getColor(), true, false, false, true, promotionPiece});
-                }
+                std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
+                std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol, nextCol](std::string promotionPiece) {
+                    return Move{currCol, currRow, nextCol, currRow + ROW_OFFSET, getColor(), true, false, false, true, promotionPiece};
+                });
             } else {
                 moves.push_back(Move{currCol, currRow, nextCol, currRow + ROW_OFFSET, getColor(), true, false, false, false, ""});
             }
