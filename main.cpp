@@ -38,6 +38,10 @@ int main() {
         std::shared_ptr<Piece> k(new King(2, 1, true));
 
         pc->generateLegalMoves(*std::dynamic_pointer_cast<King> (k), knightMoves, *bd);
+
+        AI::evaluate(*bd);
+        AI::search(10, *bd);
+        
     } catch (app_error &err) {
         std::cout << "APP ERROR " << err.what() << '\n';
     } catch(std::exception &err) {
