@@ -13,6 +13,7 @@ class Board {
 private:
     std::vector<std::shared_ptr<Piece>> pieces;
 public:
+    std::vector<std::shared_ptr<Piece>> getPieces() const { return pieces; };
 
     // constructor de initializare
     Board(const std::vector<std::shared_ptr<Piece>>& pieces_ = {});
