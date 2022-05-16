@@ -48,3 +48,7 @@ std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {
 
     return moves;
 }
+
+int Queen::evaluate(const Board& bd) {
+    return 900; 
+}

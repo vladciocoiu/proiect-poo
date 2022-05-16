@@ -7,9 +7,9 @@ std::pair<int, Move> AI::search(int depth, const Board &bd) {
     return {depth, Move{1, 0, 0, 2, true, false, false, false, false, ""}};
 }
 
-
-// TODO: code the evaluate function that evaluates the current position on the board and returns the score
-int AI::evaluate(const Board &bd) {
-    for(auto piece: bd.getPieces()) std::cout << *piece;
-    return 0;
+// returns the score in centipawns (1/100 * pawn_value)
+int AI::evaluateBoard(const Board &bd) {
+    int eval = 0;
+    for(auto piece: bd.getPieces()) eval += piece->evaluate(bd) * (piece->getColor() ? 1 : -1);
+    return eval;
 }

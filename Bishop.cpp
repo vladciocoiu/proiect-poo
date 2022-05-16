@@ -48,3 +48,7 @@ std::vector<Move> Bishop::generatePseudoLegalMoves(const Board& bd) {
 
     return moves;
 }
+
+int Bishop::evaluate(const Board& bd) {
+    return 320; 
+}

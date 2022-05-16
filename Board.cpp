@@ -126,3 +126,11 @@ void Board::unmakeMove(Piece& piece, const Move& m) {
     setEnPassantCol(popEnPassantCol());
     setCastleRights(popCastleRights());
 }
+
+int Board::computePieceCount() const {
+    int cnt = 0;
+    for(auto pc: pieces) {
+        cnt += pc->getPieceCount();
+    }
+    return cnt;
+}

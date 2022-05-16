@@ -25,7 +25,7 @@ int main() {
         bd->addPiece(pc);
         std::cout << *bd;    
 
-        std::vector<Move> knightMoves = std::dynamic_pointer_cast<Knight>(pc)->generatePseudoLegalMoves(*bd);
+        std::vector<Move> knightMoves = pc->generatePseudoLegalMoves(*bd);
         for (const Move& mov: knightMoves) std::cout << mov;
 
         std::cout << *pc;
@@ -39,9 +39,9 @@ int main() {
 
         std::shared_ptr<Piece> k(new King(2, 1, true));
 
-        pc->generateLegalMoves(*std::dynamic_pointer_cast<King> (k), knightMoves, *bd);
+        pc->generateLegalMoves(dynamic_cast<King&>(*k), knightMoves, *bd);
 
-        AI::evaluate(*bd);
+        std::cout << AI::evaluateBoard(*bd) << '\n';
         AI::search(10, *bd);
 
     } catch (app_error &err) {

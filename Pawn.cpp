@@ -88,3 +88,7 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
 
     return moves;
 }
+
+int Pawn::evaluate(const Board& bd) {
+    return 100; 
+}

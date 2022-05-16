@@ -87,3 +87,29 @@ bool King::isInCheck(const Board& bd) const {
     }
     return false;
 }
+
+// evalutes king safety in the opening/middlegame and centralization in the endgame
+int King::evaluate(const Board& bd) {
+
+    auto [row, col] = getSquare();
+
+    // distance to one of the squares b1/g1 for white, or b8/g8 for black
+    int rowDistMg = (getColor() ? row : 7 - row);
+    int colDistMg = std::min(abs(col - 1), abs(col - 6));
+
+    int middleGameEval = - rowDistMg * rowDistMg * 50 - colDistMg * 20;
+
+    // distance to the center
+    int rowDistEg = std::min(abs(row - 3), abs(row - 4));
+    int colDistEg = std::min(abs(col - 3), abs(col - 4));
+
+    int endGameEval = (rowDistEg + colDistEg) * -20;
+
+    // if we have more pieces than the initial position, just reduce the count
+    int pieceCount = std::min(bd.computePieceCount(), 62);
+
+    // score is interpolated between opening/middlegame and endgame
+    int eval = (pieceCount * middleGameEval + (62 - pieceCount) * endGameEval) / 62; 
+
+    return eval;
+}

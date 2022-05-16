@@ -47,6 +47,7 @@ public:
     void setCastleRights(int rights) { castleRights = rights; };
     int getCastleRights() const { return castleRights; };
 
+    int computePieceCount() const;
 
     // constructor de initializare
     Board(const std::unordered_set<std::shared_ptr<Piece>>& pieces_ = {});
