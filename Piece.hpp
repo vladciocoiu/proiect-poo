@@ -52,7 +52,7 @@ public:
     virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd) = 0;
 
     // legal moves are all moves that are pseudo legal and don't put the friendly king in check
-    std::vector<Move> generateLegalMoves(const King& friendlyKing, std::vector<Move> pseudoLegalMoves, Board& bd);
+    std::vector<Move> generateLegalMoves(const King& friendlyKing, const std::vector<Move> &pseudoLegalMoves, Board& bd);
 
 };
 

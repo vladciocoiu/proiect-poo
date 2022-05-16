@@ -37,11 +37,11 @@ std::vector<Move> Knight::generatePseudoLegalMoves(const Board& bd) {
         if(newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) continue;
 
         // if a friendly piece is on that square, we cannot make the move
-        if(occupiedSquares.count({newRow, newCol})) continue;
+        if(occupiedSquares.contains({newRow, newCol})) continue;
 
         // make a new move that isn't a capture / castle / en passant / promotion
         // with the corresponding squares and color
-        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), (bool)enemySquares.count({ newRow, newCol }), false, false, false, ""});
+        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), enemySquares.contains({ newRow, newCol }), false, false, false, ""});
     }
 
     return moves;

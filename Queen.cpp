@@ -36,13 +36,13 @@ std::vector<Move> Queen::generatePseudoLegalMoves(const Board& bd) {
             if(newRow >= 8 || newCol >= 8 || newRow < 0 || newCol < 0) break;
 
             // square is occupied
-            if(occupiedSquares.count({ newRow, newCol })) break;
+            if(occupiedSquares.contains({ newRow, newCol })) break;
 
             // add move
-            moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), (bool)enemySquares.count({ newRow, newCol }), false, false, false, ""});
+            moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), enemySquares.contains({ newRow, newCol }), false, false, false, ""});
 
             // break after finding an enemy piece
-            if(enemySquares.count({ newRow, newCol })) break;
+            if(enemySquares.contains({ newRow, newCol })) break;
         }
     }
 

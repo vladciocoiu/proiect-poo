@@ -36,11 +36,11 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
         if(newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) continue;
 
         // if a friendly piece is on that square, we cannot make the move
-        if(occupiedSquares.count({newRow, newCol})) continue;
+        if(occupiedSquares.contains({newRow, newCol})) continue;
 
         // make a new move that isn't a capture / castle / en passant / promotion
         // with the corresponding squares and color
-        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), (bool)enemySquares.count({ newRow, newCol }), false, false, false, ""});
+        moves.push_back(Move{currCol, currRow, newCol, newRow, getColor(), enemySquares.contains({ newRow, newCol }), false, false, false, ""});
     }
 
     // castle moves
@@ -53,7 +53,7 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
     if(bd.getCastleRights() && castleShortBit) {
         bool ok = true;
         for(int c = 5; c <= 6; c++) {
-            if(occupiedSquares.count({currRow, c}) || enemySquares.count({currRow, c})) {
+            if(occupiedSquares.contains({currRow, c}) || enemySquares.contains({currRow, c})) {
                 ok = false;
             }
         }
@@ -64,7 +64,7 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
     if(bd.getCastleRights() && castleLongBit) {
         bool ok = true;
         for(int c = 1; c <= 3; c++) {
-            if(occupiedSquares.count({currRow, c}) || enemySquares.count({currRow, c})) {
+            if(occupiedSquares.contains({currRow, c}) || enemySquares.contains({currRow, c})) {
                 ok = false;
             }        
         }

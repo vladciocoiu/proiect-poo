@@ -72,8 +72,10 @@ void Board::makeMove(Piece& piece, const Move& m) {
         auto pc = std::find_if(pieces.begin(), pieces.end(), [m, capturedPieceRow](std::shared_ptr<Piece> pc) { 
             return pc->getSquare().first == capturedPieceRow && pc->getSquare().second == m.getColTo();
         });
-        pushCapturedPiece(*pc);
-        removePiece(*pc);
+        if(pc != pieces.end()) {
+            pushCapturedPiece(*pc);
+            removePiece(*pc);
+        }
     }
 
     // if castle move the rook

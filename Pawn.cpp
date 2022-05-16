@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <array>
 
 #include "Pawn.hpp"
 #include "Board.hpp"
@@ -26,6 +27,8 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     // squares occupied by enemy pieces
     std::set<std::pair<int, int>> enemySquares = bd.getOccupiedSquares(!getColor());
 
+    const std::array<std::string, 4> PROMOTION_PIECES = {"knight", "bishop", "rook", "queen"};
+
 
     // white pawns move to bigger rows, and black pawns to smaller ones
     const int ROW_OFFSET = (getColor() ? 1 : -1);
@@ -39,8 +42,7 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     // en passant
     if(abs(bd.getEnPassantCol() - currCol) == 1 && currRow == (getColor() ? 4 : 3)) {
         if(currRow + ROW_OFFSET == PROMOTION_ROW) {
-            std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
-            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [bd, this, currRow, currCol, ROW_OFFSET](std::string promotionPiece) {
+            std::transform(PROMOTION_PIECES.begin(), PROMOTION_PIECES.end(), moves.begin(), [bd, this, currRow, currCol, ROW_OFFSET](std::string promotionPiece) {
                 return Move{currCol, currRow, bd.getEnPassantCol(), currRow + ROW_OFFSET, getColor(), true, true, false, true, promotionPiece};
             });
         } else {
@@ -50,11 +52,10 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
 
     // normal 1 square move
     if(currRow + ROW_OFFSET >= 0 && currRow + ROW_OFFSET < 8 
-    && !occupiedSquares.count({currRow + ROW_OFFSET, currCol})
-    && !enemySquares.count({currRow + ROW_OFFSET, currCol})) {
+    && !occupiedSquares.contains({currRow + ROW_OFFSET, currCol})
+    && !enemySquares.contains({currRow + ROW_OFFSET, currCol})) {
         if(currRow + ROW_OFFSET == PROMOTION_ROW) {
-            std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
-            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol, ROW_OFFSET](std::string promotionPiece) {
+            std::transform(PROMOTION_PIECES.begin(), PROMOTION_PIECES.end(), moves.begin(), [this, currRow, currCol, ROW_OFFSET](std::string promotionPiece) {
                 return Move{currCol, currRow, currCol, currRow + ROW_OFFSET, getColor(), false, false, false, true, promotionPiece};
 
             });
@@ -65,8 +66,8 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
         // 2 square move
         // can be possible only if normal move is possible
         if(currRow == STARTING_ROW 
-        && !occupiedSquares.count({currRow + 2 * ROW_OFFSET, currCol})
-        && !enemySquares.count({currRow + 2 * ROW_OFFSET, currCol})) {
+        && !occupiedSquares.contains({currRow + 2 * ROW_OFFSET, currCol})
+        && !enemySquares.contains({currRow + 2 * ROW_OFFSET, currCol})) {
             moves.push_back(Move{currCol, currRow, currCol, currRow + 2 * ROW_OFFSET, getColor(), false, false, false, false, ""});
         }
     }
@@ -74,10 +75,9 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     // capture moves
     for(int nextCol: {currCol - 1, currCol + 1}) {
         if(nextCol < 0 || nextCol >= 8) continue;
-        if(enemySquares.count({currRow + ROW_OFFSET, nextCol})) {
+        if(enemySquares.contains({currRow + ROW_OFFSET, nextCol})) {
             if(currRow + ROW_OFFSET == PROMOTION_ROW) {
-                std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
-                std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol, nextCol, ROW_OFFSET](std::string promotionPiece) {
+                std::transform(PROMOTION_PIECES.begin(), PROMOTION_PIECES.end(), moves.begin(), [this, currRow, currCol, nextCol, ROW_OFFSET](std::string promotionPiece) {
                     return Move{currCol, currRow, nextCol, currRow + ROW_OFFSET, getColor(), true, false, false, true, promotionPiece};
                 });
             } else {

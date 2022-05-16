@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <unordered_set>
+#include <stack>
 
 #include "Piece.hpp"
 
@@ -19,23 +20,23 @@ private:
     bool turn;
 
     // stacks for irreversible move features in order to restore them when unmaking a move
-    std::vector<std::shared_ptr<Piece>> capturedPiecesStack;
-    std::vector<int> enPassantColsStack;
-    std::vector<int> castleRightsStack;
+    std::stack<std::shared_ptr<Piece>> capturedPiecesStack;
+    std::stack<int> enPassantColsStack;
+    std::stack<int> castleRightsStack;
 public:
     // getters and setters
     std::unordered_set<std::shared_ptr<Piece>> getPieces() const { return pieces; };
     void addPiece(std::shared_ptr<Piece> pc) { pieces.insert(pc); };
     void removePiece(std::shared_ptr<Piece> pc) { pieces.erase(pc); }
 
-    std::shared_ptr<Piece> popCapturedPiece() { const auto& piece = capturedPiecesStack.back(); capturedPiecesStack.pop_back(); return piece; };
-    void pushCapturedPiece(std::shared_ptr<Piece> pc) { capturedPiecesStack.push_back(pc); };
+    std::shared_ptr<Piece> popCapturedPiece() { const auto& piece = capturedPiecesStack.top(); capturedPiecesStack.pop(); return piece; };
+    void pushCapturedPiece(std::shared_ptr<Piece> pc) { capturedPiecesStack.push(pc); };
 
-    int popEnPassantCol() { int col = enPassantColsStack.back(); enPassantColsStack.pop_back(); return col; };
-    void pushEnPassantCol(int col) { enPassantColsStack.push_back(col); };
+    int popEnPassantCol() { int col = enPassantColsStack.top(); enPassantColsStack.pop(); return col; };
+    void pushEnPassantCol(int col) { enPassantColsStack.push(col); };
 
-    int popCastleRights() { int rights = castleRightsStack.back(); castleRightsStack.pop_back(); return rights; };
-    void pushCastleRights(int rights) { castleRightsStack.push_back(rights); };
+    int popCastleRights() { int rights = castleRightsStack.top(); castleRightsStack.pop(); return rights; };
+    void pushCastleRights(int rights) { castleRightsStack.push(rights); };
 
     void switchTurn() { turn = !turn; };
     bool getTurn() const { return turn; };
