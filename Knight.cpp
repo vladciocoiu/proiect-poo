@@ -47,6 +47,6 @@ std::vector<Move> Knight::generatePseudoLegalMoves(const Board& bd) {
     return moves;
 }
 
-int Knight::evaluate(const Board& bd) {
+int Knight::evaluate(const Board& /*bd*/) {
     return 300; 
 }

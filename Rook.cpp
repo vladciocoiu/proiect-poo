@@ -49,6 +49,6 @@ std::vector<Move> Rook::generatePseudoLegalMoves(const Board& bd) {
     return moves;
 }
 
-int Rook::evaluate(const Board &bd) {
+int Rook::evaluate(const Board& /*bd*/) {
     return 500;
 }
