@@ -91,17 +91,17 @@ bool King::isInCheck(const Board& bd) const {
 // evalutes king safety in the opening/middlegame and centralization in the endgame
 int King::evaluate(const Board& bd) {
 
-    auto [row, col] = getSquare();
+    auto [currRow, currCol] = getSquare();
 
     // distance to one of the squares b1/g1 for white, or b8/g8 for black
-    int rowDistMg = (getColor() ? row : 7 - row);
-    int colDistMg = std::min(abs(col - 1), abs(col - 6));
+    int rowDistMg = (getColor() ? currRow : 7 - currRow);
+    int colDistMg = std::min(abs(currCol - 1), abs(currCol - 6));
 
     int middleGameEval = - rowDistMg * rowDistMg * 50 - colDistMg * 20;
 
     // distance to the center
-    int rowDistEg = std::min(abs(row - 3), abs(row - 4));
-    int colDistEg = std::min(abs(col - 3), abs(col - 4));
+    int rowDistEg = std::min(abs(currRow - 3), abs(currRow - 4));
+    int colDistEg = std::min(abs(currCol - 3), abs(currCol - 4));
 
     int endGameEval = (rowDistEg + colDistEg) * -20;
 
