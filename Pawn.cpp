@@ -28,19 +28,19 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
 
 
     // white pawns move to bigger rows, and black pawns to smaller ones
-    static const int ROW_OFFSET = (getColor() ? 1 : -1);
+    const int ROW_OFFSET = (getColor() ? 1 : -1);
 
     // needed for the 2 square move (pawns can only move 2 squares from their initial row)
-    static const int STARTING_ROW = (getColor() ? 1 : 6);
+    const int STARTING_ROW = (getColor() ? 1 : 6);
 
     // the row where the pawn can promote
-    static const int PROMOTION_ROW = (getColor() ? 7 : 0);
+    const int PROMOTION_ROW = (getColor() ? 7 : 0);
 
     // en passant
     if(abs(bd.getEnPassantCol() - currCol) == 1 && currRow == (getColor() ? 4 : 3)) {
         if(currRow + ROW_OFFSET == PROMOTION_ROW) {
             std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
-            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [bd, this, currRow, currCol](std::string promotionPiece) {
+            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [bd, this, currRow, currCol, ROW_OFFSET](std::string promotionPiece) {
                 return Move{currCol, currRow, bd.getEnPassantCol(), currRow + ROW_OFFSET, getColor(), true, true, false, true, promotionPiece};
             });
         } else {
@@ -54,7 +54,7 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     && !enemySquares.count({currRow + ROW_OFFSET, currCol})) {
         if(currRow + ROW_OFFSET == PROMOTION_ROW) {
             std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
-            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol](std::string promotionPiece) {
+            std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol, ROW_OFFSET](std::string promotionPiece) {
                 return Move{currCol, currRow, currCol, currRow + ROW_OFFSET, getColor(), false, false, false, true, promotionPiece};
 
             });
@@ -77,7 +77,7 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
         if(enemySquares.count({currRow + ROW_OFFSET, nextCol})) {
             if(currRow + ROW_OFFSET == PROMOTION_ROW) {
                 std::vector<std::string> promotionPieces = {"knight", "bishop", "rook", "queen"};
-                std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol, nextCol](std::string promotionPiece) {
+                std::transform(promotionPieces.begin(), promotionPieces.end(), moves.begin(), [this, currRow, currCol, nextCol, ROW_OFFSET](std::string promotionPiece) {
                     return Move{currCol, currRow, nextCol, currRow + ROW_OFFSET, getColor(), true, false, false, true, promotionPiece};
                 });
             } else {
