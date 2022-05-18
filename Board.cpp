@@ -101,7 +101,7 @@ void Board::makeMove(Piece& piece, const Move& m) {
             auto newPiece = std::shared_ptr<Piece>(new Queen{piece.getSquare().second, piece.getSquare().first, piece.getColor()});
             addPiece(newPiece);
         }
-        removePiece(std::make_shared(piece));
+        removePiece(std::make_shared(*piece));
     }
 }
 
@@ -110,7 +110,7 @@ void Board::unmakeMove(Piece& piece, const Move& m) {
         auto newPiece = std::shared_ptr<Piece>(new Pawn{piece.getSquare().second, piece.getSquare().first, piece.getColor()});
         addPiece(newPiece);
     }
-    removePiece(std::make_shared(piece));
+    removePiece(std::make_shared(*piece));
 
     if(m.isCastle()) {
         for(auto pc: pieces) {
