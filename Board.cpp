@@ -144,14 +144,15 @@ Board BoardFactory::initialBoard() {
         }
     }
     for(int row : {0, 7}) {
-        bb.piece(*new Knight{1, row, (row == 0)});
-        bb.piece(*new Knight{6, row, (row == 0)});
-        bb.piece(*new Bishop{2, row, (row == 0)});
-        bb.piece(*new Bishop{5, row, (row == 0)});
-        bb.piece(*new Rook{0, row, (row == 0)});
-        bb.piece(*new Rook{7, row, (row == 0)});
-        bb.piece(*new Queen{3, row, (row == 0)});
-        bb.piece(*new King{4, row, (row == 0)});
+        bb.piece(Knight{1, row, (row == 0)});
+        bb.piece(Knight{6, row, (row == 0)});
+        bb.piece(Bishop{2, row, (row == 0)});
+        bb.piece(Bishop{5, row, (row == 0)});
+        bb.piece(Rook{0, row, (row == 0)});
+        bb.piece(Rook{7, row, (row == 0)});
+        bb.piece(Queen{3, row, (row == 0)});
+        bb.piece(King{4, row, (row == 0)});
     }    
+
     return bb.turn(true).castleRights(15).epCol(-1).build();
 }

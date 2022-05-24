@@ -84,7 +84,7 @@ public:
         bd.turn = turn;
         return *this;
     }
-    BoardBuilder& piece(Piece &pc) {
+    BoardBuilder& piece(const Piece &pc) {
         bd.addPiece(pc.clone());
         return *this;
     }
