@@ -7,11 +7,6 @@ const std::vector<std::pair<int, int>> Knight::OFFSETS = {
     {2, 1}, {-2, 1}, {2, -1}, {-2, -1}
 };
 
-Knight::Knight(int col_, int row_, bool color_) 
-: Piece(col_, row_, color_) {
-    std::cout << "Init Knight\n";
-}
-
 std::shared_ptr<Piece> Knight::clone() const {
     return std::make_shared<Knight>(*this);
 }

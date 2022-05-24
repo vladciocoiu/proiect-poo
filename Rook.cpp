@@ -3,11 +3,6 @@
 #include "Board.hpp"
 #include "King.hpp"
 
-Rook::Rook(int col_, int row_, bool color_) 
-: Piece(col_, row_, color_) {
-    std::cout << "Init Rook\n";
-}
-
 std::shared_ptr<Piece> Rook::clone() const {
     return std::make_shared<Rook>(*this);
 }

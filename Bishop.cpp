@@ -3,11 +3,6 @@
 #include "Board.hpp"
 #include "King.hpp"
 
-Bishop::Bishop(int col_, int row_, bool color_) 
-: Piece(col_, row_, color_) {
-    std::cout << "Init Bishop\n";
-}
-
 std::shared_ptr<Piece> Bishop::clone() const {
     return std::make_shared<Bishop>(*this);
 }

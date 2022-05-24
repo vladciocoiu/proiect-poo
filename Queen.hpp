@@ -10,7 +10,7 @@
 
 class Queen : public Piece {    
 public:
-    Queen(int col_, int row_, bool color_);
+    Queen(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
     virtual int getPieceCount() override { return 9; };
     

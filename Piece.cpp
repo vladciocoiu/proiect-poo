@@ -9,26 +9,6 @@
 Piece::Piece(int col_, int row_, bool color_) 
 : col{col_}, row{row_}, color{color_} {
     if(col_ < 0 || col_ >= 8 || row_ < 0 || row_ >= 8) throw piece_error{"Piece coordinates out of bounds."};
-    std::cout << "Init Piece\n";
-}
-
-// // constructor de copiere
-// Piece::Piece(const Piece& other) : col{other.col}, row{other.row}, color{other.color} {
-//     std::cout << "Copy Piece\n";
-// }
-
-// // operator =
-// Piece& Piece::operator=(const Piece& other) {
-//     col = other.col;
-//     row = other.row;
-//     color = other.color;
-//     std::cout << "= Piece\n";
-//     return *this;
-// }
-
-// destructor
-Piece::~Piece() {
-    std::cout << "Destr Piece\n";
 }
 
 // operator <<

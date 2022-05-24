@@ -10,7 +10,7 @@
 
 class Bishop : public Piece {    
 public:
-    Bishop(int col_, int row_, bool color_);
+    Bishop(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
     virtual int getPieceCount() override { return 3; };
 

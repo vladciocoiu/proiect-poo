@@ -134,3 +134,24 @@ int Board::computePieceCount() const {
     }
     return cnt;
 }
+
+Board BoardFactory::initialBoard() {
+    BoardBuilder bb;
+
+    for(int row : {1, 6}) {
+        for(int col = 0; col < 8; col++) {
+            bb.piece(*new Pawn{col, row, (row == 1)});
+        }
+    }
+    for(int row : {0, 7}) {
+        bb.piece(*new Knight{1, row, (row == 0)});
+        bb.piece(*new Knight{6, row, (row == 0)});
+        bb.piece(*new Bishop{2, row, (row == 0)});
+        bb.piece(*new Bishop{5, row, (row == 0)});
+        bb.piece(*new Rook{0, row, (row == 0)});
+        bb.piece(*new Rook{7, row, (row == 0)});
+        bb.piece(*new Queen{3, row, (row == 0)});
+        bb.piece(*new King{4, row, (row == 0)});
+    }    
+    return bb.turn(true).castleRights(15).epCol(-1).build();
+}

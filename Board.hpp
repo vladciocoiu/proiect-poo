@@ -23,6 +23,7 @@ private:
     std::stack<std::shared_ptr<Piece>> capturedPiecesStack;
     std::stack<int> enPassantColsStack;
     std::stack<int> castleRightsStack;
+friend class BoardBuilder;
 public:
     // getters and setters
     std::unordered_set<std::shared_ptr<Piece>> getPieces() const { return pieces; };
@@ -64,5 +65,37 @@ public:
 
     void unmakeMove(Piece& piece, const Move& m);
 };
+
+// design pattern - builder
+class BoardBuilder {
+private:
+    Board bd;
+public:
+    BoardBuilder() = default;
+    BoardBuilder& epCol(int col) {
+        bd.enPassantCol = col;
+        return *this;
+    }
+    BoardBuilder& castleRights(int rights) {
+        bd.castleRights = rights;
+        return *this;
+    }
+    BoardBuilder& turn(bool turn) {
+        bd.turn = turn;
+        return *this;
+    }
+    BoardBuilder& piece(Piece &pc) {
+        bd.addPiece(pc.clone());
+        return *this;
+    }
+    Board build() { return bd; };
+};
+
+// design pattern - factory
+class BoardFactory {
+public:
+    static Board initialBoard();
+};
+
 
 #endif

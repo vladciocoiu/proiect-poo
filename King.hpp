@@ -14,7 +14,7 @@ class King : public Piece {
 private:
     static const std::vector<std::pair<int, int>> OFFSETS;
 public:
-    King(int col_, int row_, bool color_);
+    King(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
     virtual int getPieceCount() override { return 0; };
 

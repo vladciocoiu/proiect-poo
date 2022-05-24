@@ -36,12 +36,12 @@
 - [X] funcții și atribute `static`
 - [X] STL
 - [X] cât mai multe `const`
-- [ ] tag de `git`: de exemplu `v0.2`
+- [X] tag de `git`: de exemplu `v0.2`
 
 ## Tema 3
 
 #### Cerințe
-- [ ] 2 șabloane de proiectare (design patterns)
+- [X] 2 șabloane de proiectare (design patterns)
 - [ ] o funcție șablon (template) cu sens; minim 2 instanțieri
 - [ ] o clasă șablon cu sens; minim 2 instanțieri
 - [ ] o specializare pe funcție/clasă șablon

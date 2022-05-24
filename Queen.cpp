@@ -3,11 +3,6 @@
 #include "Board.hpp"
 #include "King.hpp"
 
-Queen::Queen(int col_, int row_, bool color_) 
-: Piece(col_, row_, color_) {
-    std::cout << "Init Queen\n";
-}
-
 std::shared_ptr<Piece> Queen::clone() const {
     return std::make_shared<Queen>(*this);
 }

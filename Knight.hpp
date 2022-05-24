@@ -15,7 +15,7 @@ private:
     static const std::vector<std::pair<int, int>> OFFSETS;
     
 public:
-    Knight(int col_, int row_, bool color_);
+    Knight(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
     virtual int getPieceCount() override { return 3; };
 

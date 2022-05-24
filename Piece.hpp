@@ -10,10 +10,7 @@
 #include <memory>
 
 #include "Move.hpp"
-// #include "Board.hpp"
-// #include "King.hpp"
 
-// #include "Board.hpp"
 class Board;
 class King;
 
@@ -38,18 +35,13 @@ public:
 
     virtual std::shared_ptr<Piece> clone() const = 0;
 
-    // // constructor de copiere
-    // Piece(const Piece& other);
-
-    // // operator =
-    // Piece& operator=(const Piece& other);
 
     // operator <<
     friend std::ostream& operator<<(std::ostream& os, const Piece& pc);
 
 
     // destructor 
-    virtual ~Piece();
+    virtual ~Piece() {}
 
     virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd) = 0;
 

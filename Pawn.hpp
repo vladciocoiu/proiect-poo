@@ -10,7 +10,7 @@
 
 class Pawn : public Piece {    
 public:
-    Pawn(int col_, int row_, bool color_);
+    Pawn(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
     virtual int getPieceCount() override { return 0; };
 

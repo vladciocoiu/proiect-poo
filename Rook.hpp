@@ -10,7 +10,7 @@
 
 class Rook : public Piece {    
 public:
-    Rook(int col_, int row_, bool color_);
+    Rook(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
     virtual int getPieceCount() override { return 5; };
 
