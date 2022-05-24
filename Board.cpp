@@ -140,7 +140,7 @@ Board BoardFactory::initialBoard() {
 
     for(int row : {1, 6}) {
         for(int col = 0; col < 8; col++) {
-            bb.piece(*new Pawn{col, row, (row == 1)});
+            bb.piece(Pawn{col, row, (row == 1)});
         }
     }
     for(int row : {0, 7}) {
