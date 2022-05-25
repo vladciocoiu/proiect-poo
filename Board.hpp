@@ -55,7 +55,7 @@ public:
     int computePieceCount() const;
 
     bool makeMoveFromString(std::string str);
-    std::shared_ptr<Piece> findPiece(Move mv);
+    std::shared_ptr<Piece> findPiece(const Move& mv);
 
     std::vector<Move> generateAllLegalMoves();
 
@@ -70,9 +70,9 @@ public:
     std::set<std::pair<int, int>> getOccupiedSquares(bool color) const;
 
 
-    void makeMove(Piece& piece, Move& m);
+    void makeMove(Piece& piece, const Move& m);
 
-    void unmakeMove(Piece& piece, Move& m);
+    void unmakeMove(Piece& piece, const Move& m);
 };
 
 // design pattern - builder

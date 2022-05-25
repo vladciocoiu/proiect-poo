@@ -41,7 +41,7 @@ std::ostream& operator<<(std::ostream& os, const Board& bd) {
     return os;
 }
 
-void Board::makeMove(Piece& piece, Move& m) {
+void Board::makeMove(Piece& piece, const Move& m) {
     switchTurn();
     pushCastleRights(getCastleRights());
     pushEnPassantCol(getEnPassantCol());
@@ -107,7 +107,7 @@ void Board::makeMove(Piece& piece, Move& m) {
     }
 }
 
-void Board::unmakeMove(Piece& piece, Move& m) {
+void Board::unmakeMove(Piece& piece, const Move& m) {
     switchTurn();
     if(m.isPromotion()) {
         auto newPiece = std::shared_ptr<Piece>(new Pawn{piece.getSquare().second, piece.getSquare().first, piece.getColor()});
@@ -153,14 +153,15 @@ std::vector<Move> Board::generateAllLegalMoves() {
 }
 
 // finds the piece that should make a certain move
-std::shared_ptr<Piece> Board::findPiece(Move mv) {
+std::shared_ptr<Piece> Board::findPiece(const Move& mv) {
     for(auto pc: pieces) {
         std::vector<Move> pieceMoves = pc->generateLegalMoves(*this);
-        for(auto m: pieceMoves) {
-            if(m.getColFrom() == mv.getColFrom() && mv.getRowFrom() == m.getRowFrom() && mv.getColTo() == m.getColTo() && mv.getRowTo() == m.getRowTo() && mv.getPromotionPiece() ==  m.getPromotionPiece()) {
-                return pc;
-            }
+        if(std::any_of(pieceMoves.begin(), pieceMoves.end(), [this, mv](auto m) {
+                return (m.getColFrom() == mv.getColFrom() && mv.getRowFrom() == m.getRowFrom() && mv.getColTo() == m.getColTo() && mv.getRowTo() == m.getRowTo() && mv.getPromotionPiece() ==  m.getPromotionPiece());
+            })) {
+            return pc;
         }
+
     }
     return nullptr;
 }
@@ -182,11 +183,12 @@ bool Board::makeMoveFromString(std::string str) {
     for(auto pc: pieces) {
         if(pc->getColor() == turn) {
             std::vector<Move> pieceMoves = pc->generateLegalMoves(*this);
-            for(auto mv: pieceMoves) {
-                if(mv.getColFrom() == startCol && mv.getRowFrom() == startRow && mv.getColTo() == endCol && mv.getRowTo() == endRow && mv.getPromotionPiece() == promotionPiece) {
-                    makeMove(*pc, mv);
-                    return true;
-                }
+            auto m = std::find_if(pieceMoves.begin(), pieceMoves.end(), [startCol, startRow, endCol, endRow, promotionPiece](auto mv) { 
+                return (mv.getColFrom() == startCol && mv.getRowFrom() == startRow && mv.getColTo() == endCol && mv.getRowTo() == endRow && mv.getPromotionPiece() == promotionPiece);
+            });
+            if(m != pieceMoves.end()) {
+                makeMove(*pc, *m);
+                return true;
             }
         }
     }
