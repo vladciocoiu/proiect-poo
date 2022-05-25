@@ -156,7 +156,7 @@ std::vector<Move> Board::generateAllLegalMoves() {
 std::shared_ptr<Piece> Board::findPiece(const Move& mv) {
     for(auto pc: pieces) {
         std::vector<Move> pieceMoves = pc->generateLegalMoves(*this);
-        if(std::any_of(pieceMoves.begin(), pieceMoves.end(), [this, mv](auto m) {
+        if(std::any_of(pieceMoves.begin(), pieceMoves.end(), [mv](auto m) {
                 return (m.getColFrom() == mv.getColFrom() && mv.getRowFrom() == m.getRowFrom() && mv.getColTo() == m.getColTo() && mv.getRowTo() == m.getRowTo() && mv.getPromotionPiece() ==  m.getPromotionPiece());
             })) {
             return pc;
