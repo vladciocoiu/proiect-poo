@@ -17,6 +17,8 @@ private:
 public:
     Knight(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
+    std::string getPieceType() override { return "Knight"; };
+
     virtual int getPieceCount() override { return 3; };
 
     std::shared_ptr<Piece> clone() const override;

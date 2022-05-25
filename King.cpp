@@ -45,7 +45,7 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
     // no pieces should be between the rook and king
 
     // short castle (e1g1 / e8g8)
-    if(bd.getCastleRights() && castleShortBit) {
+    if(bd.getCastleRights() & castleShortBit) {
         bool ok = true;
         for(int c = 5; c <= 6; c++) {
             if(occupiedSquares.contains({currRow, c}) || enemySquares.contains({currRow, c})) {
@@ -56,7 +56,7 @@ std::vector<Move> King::generatePseudoLegalMoves(const Board& bd) {
     }
 
     // long castle (e1c1 / e8c8)
-    if(bd.getCastleRights() && castleLongBit) {
+    if(bd.getCastleRights() & castleLongBit) {
         bool ok = true;
         for(int c = 1; c <= 3; c++) {
             if(occupiedSquares.contains({currRow, c}) || enemySquares.contains({currRow, c})) {

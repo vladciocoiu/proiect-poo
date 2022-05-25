@@ -5,24 +5,25 @@
 
 #include <vector>
 #include <unordered_set>
-#include <stack>
 
 #include "Piece.hpp"
+#include "MyStack.hpp"
 
 class Piece;
 
 class Board {
 private:
     std::unordered_set<std::shared_ptr<Piece>> pieces;
+    std::shared_ptr<Piece> blackKing, whiteKing;
 
     int castleRights; // 4 bytes: 0 for white short, 1 for white long, 2 for black short, 3 for black long
     int enPassantCol;
     bool turn;
 
     // stacks for irreversible move features in order to restore them when unmaking a move
-    std::stack<std::shared_ptr<Piece>> capturedPiecesStack;
-    std::stack<int> enPassantColsStack;
-    std::stack<int> castleRightsStack;
+    MyStack<std::shared_ptr<Piece>> capturedPiecesStack;
+    MyStack<int> enPassantColsStack;
+    MyStack<int> castleRightsStack;
 friend class BoardBuilder;
 public:
     // getters and setters
@@ -30,13 +31,16 @@ public:
     void addPiece(std::shared_ptr<Piece> pc) { pieces.insert(pc); };
     void removePiece(std::shared_ptr<Piece> pc) { pieces.erase(pc); }
 
-    std::shared_ptr<Piece> popCapturedPiece() { const auto& piece = capturedPiecesStack.top(); capturedPiecesStack.pop(); return piece; };
+    std::shared_ptr<Piece> getKing(bool color) { return (color ? whiteKing : blackKing); };
+    void setKing(bool color, std::shared_ptr<Piece> k) { if(color) whiteKing = k; else blackKing = k; };
+
+    std::shared_ptr<Piece> popCapturedPiece() { return capturedPiecesStack.pop(); };
     void pushCapturedPiece(std::shared_ptr<Piece> pc) { capturedPiecesStack.push(pc); };
 
-    int popEnPassantCol() { int col = enPassantColsStack.top(); enPassantColsStack.pop(); return col; };
+    int popEnPassantCol() { return enPassantColsStack.pop(); };
     void pushEnPassantCol(int col) { enPassantColsStack.push(col); };
 
-    int popCastleRights() { int rights = castleRightsStack.top(); castleRightsStack.pop(); return rights; };
+    int popCastleRights() { return castleRightsStack.pop(); };
     void pushCastleRights(int rights) { castleRightsStack.push(rights); };
 
     void switchTurn() { turn = !turn; };
@@ -50,6 +54,11 @@ public:
 
     int computePieceCount() const;
 
+    bool makeMoveFromString(std::string str);
+    std::shared_ptr<Piece> findPiece(Move mv);
+
+    std::vector<Move> generateAllLegalMoves();
+
     // constructor de initializare
     Board(const std::unordered_set<std::shared_ptr<Piece>>& pieces_ = {});
 
@@ -61,9 +70,9 @@ public:
     std::set<std::pair<int, int>> getOccupiedSquares(bool color) const;
 
 
-    void makeMove(Piece& piece, const Move& m);
+    void makeMove(Piece& piece, Move& m);
 
-    void unmakeMove(Piece& piece, const Move& m);
+    void unmakeMove(Piece& piece, Move& m);
 };
 
 // design pattern - builder
@@ -86,6 +95,14 @@ public:
     }
     BoardBuilder& piece(const Piece &pc) {
         bd.addPiece(pc.clone());
+        return *this;
+    }
+    BoardBuilder& whiteKing(const Piece &pc) {
+        bd.setKing(true, pc.clone());
+        return *this;
+    }
+    BoardBuilder& blackKing(const Piece &pc) {
+        bd.setKing(false, pc.clone());
         return *this;
     }
     Board build() { return bd; };

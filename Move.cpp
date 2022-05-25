@@ -16,13 +16,13 @@ Move::Move(int colFrom_, int rowFrom_, int colTo_, int rowTo_,
     || colTo_ < 0 || colTo_ >= 8 || rowTo_ < 0 || rowTo_ >= 8) {
         throw move_error{"Move coordinates out of bounds."};
     }
-
-    std::cout << "Init Move\n";
 }
 
 // operator <<
-std::ostream& operator<<(std::ostream& os, const Move& mv) {
-    os << "Move from square  (" << mv.getRowFrom() << ", " << mv.getColFrom() <<  ") to (" 
-                            << mv.getRowTo() << ", " << mv.getColTo() << ")\n";
+std::ostream& operator<<(std::ostream& os, Move& mv) {
+    os << (char)(mv.getColFrom() + 'a') << (char)(mv.getRowFrom() + '1') 
+       << (char)(mv.getColTo() + 'a') << (char)(mv.getRowTo() + '1') 
+       << (mv.getPromotionPiece().length() ? mv.getPromotionPiece()[0] : ' ');
+
     return os;
 }

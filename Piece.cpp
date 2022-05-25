@@ -12,27 +12,30 @@ Piece::Piece(int col_, int row_, bool color_)
 }
 
 // operator <<
-std::ostream& operator<<(std::ostream& os, const Piece& pc) {
-    os << (pc.color ? "White " : "Black ") << "piece on square ("
+std::ostream& operator<<(std::ostream& os, Piece& pc) {
+    os << (pc.getColor() ? "White " : "Black ") << pc.getPieceType() << " on square ("
        << pc.getSquare().first << ", " << pc.getSquare().second << ")" << '\n';
     return os;
 }
 
 // make the move and check if the friendly king is in check
 // TODO: fix some bugs here
-std::vector<Move> Piece::generateLegalMoves(const King& friendlyKing, const std::vector<Move> &pseudoLegalMoves, Board& bd) {
+std::vector<Move> Piece::generateLegalMoves(Board& bd) {
+    std::shared_ptr<King> friendlyKing = std::dynamic_pointer_cast<King>(bd.getKing(bd.getTurn()));
+
+    std::vector<Move> pseudoLegalMoves = this->generatePseudoLegalMoves(bd);
     std::vector<Move> moves;
 
-    for(const auto &move: pseudoLegalMoves) {
+    for(auto &move: pseudoLegalMoves) {
         bd.makeMove(*this, move);
 
-        if(!friendlyKing.isInCheck(bd) && !move.isCastle()) moves.push_back(move);
+        if(!friendlyKing->isInCheck(bd) && !move.isCastle()) moves.push_back(move);
 
         bd.unmakeMove(*this, move);
     }
 
     // special case for castle moves: no square should be attacked between initial and end square of the king
-    for(const auto &move: pseudoLegalMoves) {
+    for(auto &move: pseudoLegalMoves) {
         if(!move.isCastle()) continue;
         bool ok = true;
         for(auto piece: bd.getPieces()) {

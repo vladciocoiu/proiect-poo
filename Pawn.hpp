@@ -14,6 +14,9 @@ public:
 
     virtual int getPieceCount() override { return 0; };
 
+    std::string getPieceType() override { return "Pawn"; };
+
+
     std::shared_ptr<Piece> clone() const override;
 
     virtual std::vector<Move> generatePseudoLegalMoves(const Board& bd) override;

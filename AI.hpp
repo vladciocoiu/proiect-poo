@@ -8,8 +8,9 @@
 
 class AI {    
 public:
-    static std::pair<int, Move> search(int depth, const Board &bd);
-    static int evaluateBoard(const Board &bd);
+    static int alphaBeta(int alpha, int beta, int depth, Board &bd);
+    static std::pair<int, Move> search(int depth, Board &bd);
+    static int evaluateBoard(Board &bd);
 };
 
 #endif

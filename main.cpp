@@ -15,35 +15,33 @@
 #include "Rook.hpp"
 #include "Bishop.hpp"
 #include "Queen.hpp"
+#include "MyStack.hpp"
 
 int main() {
     try {
         std::shared_ptr<Board> bd(new Board(BoardFactory::initialBoard()));
-        std::cout << *bd;
-        // std::shared_ptr<Piece> pc(new Knight(1, 0, true));
-        // std::shared_ptr<Move> mv(new Move(1, 0, 0, 2, true, false, false, false, false, ""));
+        MyStack<Move> stk;
 
-        // bd->addPiece(pc);
-        // std::cout << *bd;    
 
-        // std::vector<Move> knightMoves = pc->generatePseudoLegalMoves(*bd);
-        // for (const Move& mov: knightMoves) std::cout << mov;
+        // game loop
+        while(true) {
+            // user move (in Long Algebraic Notation)
+            std::string s;
+            std::cin >> s;
+            bd->makeMoveFromString(s);
 
-        // std::cout << *pc;
+            // AI move
+            auto res = AI::search(2, *bd);
+            stk.push(res.second);
 
-        // // the knight moves from B1 to A3
-        // bd->makeMove(*pc, *mv);
+            std::cout << "Evaluation: " << res.first << " centipawns\nMove: " << res.second << '\n';
 
-        // std::cout << *pc;
+            auto piece = bd->findPiece(res.second);
+            if(piece == nullptr) break;
 
-        // bd->unmakeMove(*pc, *mv);
-
-        // std::shared_ptr<Piece> k(new King(2, 1, true));
-
-        // pc->generateLegalMoves(dynamic_cast<King&>(*k), knightMoves, *bd);
-
-        // std::cout << AI::evaluateBoard(*bd) << '\n';
-        // AI::search(10, *bd);
+            bd->makeMove(*piece, res.second);
+        }
+        stk.print();
 
     } catch (app_error &err) {
         std::cout << "APP ERROR " << err.what() << '\n';

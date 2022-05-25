@@ -35,7 +35,7 @@ std::vector<Move> Pawn::generatePseudoLegalMoves(const Board& bd) {
     const int PROMOTION_ROW = (getColor() ? 7 : 0);
 
     // en passant
-    if(abs(bd.getEnPassantCol() - currCol) == 1 && currRow == (getColor() ? 4 : 3)) {
+    if(bd.getEnPassantCol() != -1 && (bd.getEnPassantCol() - currCol) == 1 && currRow == (getColor() ? 4 : 3)) {
         if(currRow + ROW_OFFSET == PROMOTION_ROW) {
             std::transform(PROMOTION_PIECES.begin(), PROMOTION_PIECES.end(), moves.begin(), [bd, this, currRow, currCol, ROW_OFFSET](std::string promotionPiece) {
                 return Move{currCol, currRow, bd.getEnPassantCol(), currRow + ROW_OFFSET, getColor(), true, true, false, true, promotionPiece};

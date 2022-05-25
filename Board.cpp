@@ -29,7 +29,8 @@ std::set<std::pair<int, int>> Board::getOccupiedSquares(bool color) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Board& bd) {
-    os << "Board with: \n";
+    os << "Board with: ";
+    os << "turn=" << (bd.getTurn() ? "white" : "black") << ", ep=" << bd.getEnPassantCol() << ", castle=" << bd.getCastleRights() << '\n';
 
     os << "White pieces: \n";
     for (auto pc: bd.pieces) if(pc->getColor()) os << *pc;
@@ -40,13 +41,14 @@ std::ostream& operator<<(std::ostream& os, const Board& bd) {
     return os;
 }
 
-void Board::makeMove(Piece& piece, const Move& m) {
+void Board::makeMove(Piece& piece, Move& m) {
+    switchTurn();
     pushCastleRights(getCastleRights());
     pushEnPassantCol(getEnPassantCol());
     piece.setSquare({m.getRowTo(), m.getColTo()});
 
-    // TODO: change en passant square when pawn moves up 2 squares
     setEnPassantCol(-1);
+    if(piece.getPieceType() == "Pawn" && abs(m.getRowTo() - m.getRowFrom()) == 2) setEnPassantCol(m.getColTo());
 
     // if castle remove castle rights
     if(m.isCastle()) {
@@ -60,7 +62,7 @@ void Board::makeMove(Piece& piece, const Move& m) {
         setCastleRights(getCastleRights() & castleMask);
     }
 
-    // if rook or other piece on its initial square moved, remove castle rights
+    // if rook or other piece on a1/a8/h1/h8 moved, remove castle rights
     if((m.getColFrom() == 0 || m.getColFrom() == 7) && (m.getRowFrom() == 0 || m.getRowFrom() == 7)) {
         int castleMask = (m.getRowFrom() == 0 ? (m.getColFrom() == 0 ? 14 : 13) : (m.getColFrom() == 0 ? 11 : 7));
         setCastleRights(getCastleRights() & castleMask);
@@ -105,12 +107,16 @@ void Board::makeMove(Piece& piece, const Move& m) {
     }
 }
 
-void Board::unmakeMove(Piece& piece, const Move& m) {
-    if(m.isPromotion())  {
+void Board::unmakeMove(Piece& piece, Move& m) {
+    switchTurn();
+    if(m.isPromotion()) {
         auto newPiece = std::shared_ptr<Piece>(new Pawn{piece.getSquare().second, piece.getSquare().first, piece.getColor()});
+        newPiece->setSquare({m.getRowFrom(), m.getColFrom()});
         addPiece(newPiece);
+        removePiece(piece.clone());
+    } else {
+        piece.setSquare({m.getRowFrom(), m.getColFrom()});
     }
-    removePiece(piece.clone());
 
     if(m.isCastle()) {
         for(auto pc: pieces) {
@@ -122,7 +128,6 @@ void Board::unmakeMove(Piece& piece, const Move& m) {
 
     if(m.isCapture()) addPiece(popCapturedPiece());
 
-    piece.setSquare({m.getRowFrom(), m.getColFrom()});
     setEnPassantCol(popEnPassantCol());
     setCastleRights(popCastleRights());
 }
@@ -135,14 +140,71 @@ int Board::computePieceCount() const {
     return cnt;
 }
 
+std::vector<Move> Board::generateAllLegalMoves() {
+    std::vector<Move> moves;
+
+    for(auto pc: pieces) {
+        if(pc->getColor() == turn) {
+            std::vector<Move> pieceMoves = pc->generateLegalMoves(*this);
+            moves.insert(moves.end(), pieceMoves.begin(), pieceMoves.end());
+        }
+    }
+    return moves;
+}
+
+// finds the piece that should make a certain move
+std::shared_ptr<Piece> Board::findPiece(Move mv) {
+    for(auto pc: pieces) {
+        std::vector<Move> pieceMoves = pc->generateLegalMoves(*this);
+        for(auto m: pieceMoves) {
+            if(m.getColFrom() == mv.getColFrom() && mv.getRowFrom() == m.getRowFrom() && mv.getColTo() == m.getColTo() && mv.getRowTo() == m.getRowTo() && mv.getPromotionPiece() ==  m.getPromotionPiece()) {
+                return pc;
+            }
+        }
+    }
+    return nullptr;
+}
+
+// makes a move that is recieved in Long Algebraic Notation (https://en.wikipedia.org/wiki/Algebraic_notation_(chess)#Long_algebraic_notation)
+bool Board::makeMoveFromString(std::string str) {
+    int startCol = str[0] - 'a';
+    int startRow = str[1] - '1';
+    int endCol = str[2] - 'a';
+    int endRow = str[3] - '1';
+    std::string promotionPiece = "";
+    if(str.length() == 5) {
+        if(str[4] == 'q') promotionPiece = "queen";
+        else if(str[4] == 'r') promotionPiece = "rook";
+        else if(str[4] == 'b') promotionPiece = "bishop";
+        else promotionPiece = "knight";
+    }
+
+    for(auto pc: pieces) {
+        if(pc->getColor() == turn) {
+            std::vector<Move> pieceMoves = pc->generateLegalMoves(*this);
+            for(auto mv: pieceMoves) {
+                if(mv.getColFrom() == startCol && mv.getRowFrom() == startRow && mv.getColTo() == endCol && mv.getRowTo() == endRow && mv.getPromotionPiece() == promotionPiece) {
+                    makeMove(*pc, mv);
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
 Board BoardFactory::initialBoard() {
     BoardBuilder bb;
 
+    // pawns
     for(int row : {1, 6}) {
         for(int col = 0; col < 8; col++) {
             bb.piece(Pawn{col, row, (row == 1)});
         }
     }
+
+    // other pieces
     for(int row : {0, 7}) {
         bb.piece(Knight{1, row, (row == 0)});
         bb.piece(Knight{6, row, (row == 0)});
@@ -151,8 +213,11 @@ Board BoardFactory::initialBoard() {
         bb.piece(Rook{0, row, (row == 0)});
         bb.piece(Rook{7, row, (row == 0)});
         bb.piece(Queen{3, row, (row == 0)});
-        bb.piece(King{4, row, (row == 0)});
     }    
+
+    // kings
+    King wk{4, 0, true}, bk{4, 7, false};
+    bb.piece(wk).piece(bk).whiteKing(wk).blackKing(bk);
 
     return bb.turn(true).castleRights(15).epCol(-1).build();
 }

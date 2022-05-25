@@ -12,6 +12,8 @@ class Queen : public Piece {
 public:
     Queen(int col_, int row_, bool color_) : Piece(col_, row_, color_) {};
 
+    std::string getPieceType() override { return "Queen"; };
+
     virtual int getPieceCount() override { return 9; };
     
     std::shared_ptr<Piece> clone() const override;

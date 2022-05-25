@@ -31,7 +31,7 @@ public:
          const std::string& promotionPiece_);
 
     // operator <<
-    friend std::ostream& operator<<(std::ostream& os, const Move& mv);
+    friend std::ostream& operator<<(std::ostream& os, Move& mv);
 };
 
 #endif
