@@ -17,7 +17,7 @@ std::pair<int, Move> AI::search(int depth, Board &bd) {
         std::shared_ptr<King> king = std::dynamic_pointer_cast<King>(bd.getKing(bd.getTurn()));
 
         if(king->isInCheck(bd)) res.first = -MATE_SCORE; // checkmate
-        res.first = 0; // stalemate
+        else res.first = 0; // stalemate
     }
 
     for(auto pc: bd.getPieces()) {
@@ -46,7 +46,7 @@ std::pair<int, Move> AI::search(int depth, Board &bd) {
 }
 
 // returns the static score of the board in centipawns (1/100 * pawn_value)
-int AI::evaluateBoard(Board &bd) {
+int AI::evaluateBoard(const Board &bd) {
     int eval = 0;
     for(auto piece: bd.getPieces()) eval += piece->evaluate(bd) * (piece->getColor() == bd.getTurn() ? 1 : -1);
     return eval;
