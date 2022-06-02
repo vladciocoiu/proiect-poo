@@ -146,7 +146,7 @@ std::vector<Move> Board::generateAllLegalMoves() {
     for(auto pc: pieces) {
         if(pc->getColor() == turn) {
             std::vector<Move> pieceMoves = pc->generateLegalMoves(*this);
-            moves.insert(moves.end(), pieceMoves.begin(), pieceMoves.end());
+            for(Move& m: pieceMoves) moves.push_back(m);
         }
     }
     return moves;

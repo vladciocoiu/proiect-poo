@@ -29,7 +29,7 @@ public:
     // getters and setters
     std::unordered_set<std::shared_ptr<Piece>> getPieces() const { return pieces; };
     void addPiece(std::shared_ptr<Piece> pc) { pieces.insert(pc); };
-    void removePiece(std::shared_ptr<Piece> pc) { pieces.erase(pc); }
+    void removePiece(std::shared_ptr<Piece> pc) { auto it = pieces.find(pc); if(it != pieces.end()) pieces.erase(it); }
 
     std::shared_ptr<Piece> getKing(bool color) { return (color ? whiteKing : blackKing); };
     void setKing(bool color, std::shared_ptr<Piece> k) { if(color) whiteKing = k; else blackKing = k; };

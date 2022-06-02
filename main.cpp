@@ -28,7 +28,9 @@ int main() {
             // user move (in Long Algebraic Notation)
             std::string s;
             std::cin >> s;
-            bd->makeMoveFromString(s);
+            bool success = bd->makeMoveFromString(s);
+
+            if(!success) continue;
 
             // AI move
             auto res = AI::search(2, *bd);
