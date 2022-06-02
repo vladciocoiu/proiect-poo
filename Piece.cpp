@@ -20,7 +20,7 @@ std::ostream& operator<<(std::ostream& os, Piece& pc) {
 
 // make the move and check if the friendly king is in check
 // TODO: fix some bugs here
-std::vector<Move> Piece::generateLegalMoves(Board& bd) {
+std::vector<Move> Piece::generateLegalMoves(Board bd) {
     std::shared_ptr<King> friendlyKing = std::dynamic_pointer_cast<King>(bd.getKing(bd.getTurn()));
 
     std::vector<Move> pseudoLegalMoves = this->generatePseudoLegalMoves(bd);
